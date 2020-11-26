@@ -21,7 +21,8 @@ public:
    bool modifier();
   QSqlQueryModel * afficher();
      bool supprimer(QString);
-      QSqlQueryModel * chercher(QString);
+      QSqlQueryModel * chercher(QString,int);
+      QSqlQueryModel * trier(int);
         QSqlQueryModel * afficher_combo();
 private:
        QString nom,idp,idt,tache,dated,datef,etat,remarque;

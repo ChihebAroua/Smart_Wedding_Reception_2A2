@@ -229,12 +229,45 @@ void MainWindow::on_pushButton_16_clicked()
 
 
 void MainWindow::on_pushButton_chercher_clicked()
-{ QString id=ui->lineEdit_chercher->text();
-     ui->tableView_tache->setModel(tmp_taches.chercher(id));
+{ QString variable=ui->lineEdit_chercher->text();;
+    if(ui->comboBox_recherche->currentText()=="identifient")
+    {
+     ui->tableView_tache->setModel(tmp_taches.chercher(variable,1));}
+    else if (ui->comboBox_recherche->currentText()=="nom")
+    {
+        ui->tableView_tache->setModel(tmp_taches.chercher(variable,2));}
+    else if (ui->comboBox_recherche->currentText()=="date de début ")
+    {
+        ui->tableView_tache->setModel(tmp_taches.chercher(variable,3));}
+    else if (ui->comboBox_recherche->currentText()=="date du fin")
+    {
+        ui->tableView_tache->setModel(tmp_taches.chercher(variable,4));}
+    else if (ui->comboBox_recherche->currentText()=="état")
+    {
+        ui->tableView_tache->setModel(tmp_taches.chercher(variable,5));}
+
+
+
 
     QMessageBox::information(nullptr, QObject::tr("chercher"),
                 QObject::tr("ok"), QMessageBox::Cancel);
      ui->tableView_tache->setModel(tmp_taches.afficher());
+
+}
+void MainWindow::on_pushButton_trier_clicked()
+{    if (ui->comboBox_trier->currentText()=="nom")
+    {
+        ui->tableView_tache->setModel(tmp_taches.trier(1));}
+    else if (ui->comboBox_trier->currentText()=="date de début ")
+    {
+        ui->tableView_tache->setModel(tmp_taches.trier(2));}
+    else if (ui->comboBox_trier->currentText()=="date du fin")
+    {
+        ui->tableView_tache->setModel(tmp_taches.trier(3));}
+    else if (ui->comboBox_trier->currentText()=="état")
+    {
+        ui->tableView_tache->setModel(tmp_taches.trier(4));}
+
 
 }
 
@@ -334,5 +367,7 @@ void MainWindow::on_pushButton_pdf_clicked()
 
                  delete document;
 }
+
+
 
 

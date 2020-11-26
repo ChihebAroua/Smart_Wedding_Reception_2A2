@@ -69,13 +69,22 @@ taches::taches()
      query.prepare("update  TACHES set nom='"+nom+"',ID_employe='"+idp+"',ID_tache='"+idt+"',tache_a_realise='"+tache+"',date_debut='"+dated+"',date_fin='"+datef+"',etat='"+etat+"',remarque='"+remarque+"' where ID_tache='"+idt+"'");
      return query.exec();
  }
- QSqlQueryModel * taches::chercher(QString idt){
+ QSqlQueryModel * taches::chercher(QString variable,int n){
 
  QSqlQuery query;
- QSqlQueryModel * model1=new QSqlQueryModel();
+QSqlQueryModel * model1=new QSqlQueryModel();
+if(n==1)
+       {model1->setQuery("select * from taches where ID_tache LIKE '"+variable+"' " );}
+else if(n==2)
+      { model1->setQuery("select * from taches where nom LIKE '"+variable+"' " );}
+else if(n==3)
+      { model1->setQuery("select * from taches where date_debut LIKE '"+variable+"' " );}
+else if(n==4)
+      { model1->setQuery("select * from taches where date_fin LIKE '"+variable+"' " );}
+else if(n==5)
+      { model1->setQuery("select * from taches where etat LIKE '"+variable+"' " );}
 
 
-     model1->setQuery("select * from taches where ID_tache LIKE '"+idt+"' " );
      model1->setHeaderData(0,Qt::Horizontal,QObject::tr("nom"));
      model1->setHeaderData(1,Qt::Horizontal,QObject::tr("id employé"));
      model1->setHeaderData(2,Qt::Horizontal,QObject::tr("id tache"));
@@ -89,3 +98,25 @@ taches::taches()
      return model1;
 
  }
+ QSqlQueryModel * taches::trier(int n)
+ {   QSqlQuery query;
+     QSqlQueryModel * model1=new QSqlQueryModel();
+     if(n==1)
+     {model1->setQuery("select * from taches order by nom "  );}
+else if(n==2)
+    { model1->setQuery("select * from taches order by  date_debut " );}
+else if(n==3)
+    { model1->setQuery("select * from taches order by  date_fin " );}
+else if(n==4)
+    { model1->setQuery("select * from taches order by etat " );}
+
+     model1->setHeaderData(0,Qt::Horizontal,QObject::tr("nom"));
+     model1->setHeaderData(1,Qt::Horizontal,QObject::tr("id employé"));
+     model1->setHeaderData(2,Qt::Horizontal,QObject::tr("id tache"));
+     model1->setHeaderData(3,Qt::Horizontal,QObject::tr("tache à réalisé"));
+     model1->setHeaderData(4,Qt::Horizontal,QObject::tr("date début"));
+     model1->setHeaderData(5,Qt::Horizontal,QObject::tr("date fin"));
+     model1->setHeaderData(6,Qt::Horizontal,QObject::tr("état"));
+     model1->setHeaderData(7,Qt::Horizontal,QObject::tr("remarque"));
+
+ return model1;}

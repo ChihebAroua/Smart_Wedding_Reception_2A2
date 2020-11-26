@@ -36,6 +36,8 @@ private slots:
 
     void on_comboBoxidt_currentIndexChanged(const QString &arg1);
 
+    void on_pushButton_trier_clicked();
+
 private:
     Ui::MainWindow *ui;
     employes tmp_employes;
