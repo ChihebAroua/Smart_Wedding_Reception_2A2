@@ -19,6 +19,7 @@ public:
     bool ajouter();
      bool modifier();
     bool supprimer(QString);
+    void statistique(QVector<double>* ticks,QVector<QString> *labels);
     QSqlQueryModel * afficher();
      QSqlQueryModel * afficher_combo();
 private:

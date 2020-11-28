@@ -77,5 +77,15 @@ bool employes::modifier()
 }
 
 
-
+void employes::statistique(QVector<double>* ticks,QVector<QString> *labels)
+{   QSqlQuery q;
+    int i=0;
+    q.exec("select nom from employes ");
+    while (q.next()) {
+        QString refer = q.value(0).toString();
+        i++;
+        *ticks<<i;
+        *labels <<refer;
+}
+}
 

@@ -14,12 +14,14 @@ SOURCES += \
     employes.cpp \
     main.cpp \
     mainwindow.cpp \
+    qcustomplot.cpp \
     taches.cpp
 
 HEADERS += \
     connection.h \
     employes.h \
     mainwindow.h \
+    qcustomplot.h \
     taches.h
 
 FORMS += \

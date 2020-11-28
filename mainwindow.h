@@ -38,6 +38,9 @@ private slots:
 
     void on_pushButton_trier_clicked();
 
+
+    void make_plot();
+
 private:
     Ui::MainWindow *ui;
     employes tmp_employes;
