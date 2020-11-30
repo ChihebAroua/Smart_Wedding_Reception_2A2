@@ -25,6 +25,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->tableView_local->setModel(tempLocal.afficherlocal());
     ui->tableView_troupe->setModel(temptroupe.affichertroupe());
+
+
+    //controle saisir:
+     ui->lineEdit_idl->setValidator(new QRegExpValidator(QRegExp("[0-9]*"),this));
+     ui->lineEdit_idt->setValidator(new QRegExpValidator(QRegExp("[0-9]*"),this));
+     ui->lineEdit_capacite->setValidator(new QRegExpValidator(QRegExp("[0-9]*"),this));
+     ui->lineEdit_prix->setValidator(new QRegExpValidator(QRegExp("[0-9]*"),this));
+     ui->lineEdit_prixt->setValidator(new QRegExpValidator(QRegExp("[0-9]*"),this));
+     ui->lineEdit_nom->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
+     ui->lineEdit_nomt->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
+     ui->lineEdit_type->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
+     ui->lineEdit_duree->setValidator(new QRegExpValidator(QRegExp("[0-9]*"),this));
 }
 
 MainWindow::~MainWindow()
