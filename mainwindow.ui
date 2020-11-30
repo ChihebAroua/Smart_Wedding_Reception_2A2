@@ -1,0 +1,1128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1313</width>
+    <height>622</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="tabWidgetlocal">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>10</y>
+      <width>1291</width>
+      <height>581</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:rgb(255, 255, 255)</string>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Local</string>
+     </attribute>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>40</y>
+        <width>55</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Nom</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>80</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Disponibilité</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>110</y>
+        <width>55</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>capacité</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>150</y>
+        <width>55</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Prix</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>200</y>
+        <width>55</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Adresse</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_nom">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>40</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_capacite">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>110</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_prix">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>150</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_adresse">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>190</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>250</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Ajouter</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>0</y>
+        <width>211</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Departement coordiantion generale</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>1120</x>
+        <y>450</y>
+        <width>111</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Quitter</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_6">
+      <property name="geometry">
+       <rect>
+        <x>700</x>
+        <y>380</y>
+        <width>301</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Supprimer un local</string>
+      </property>
+      <widget class="QLineEdit" name="lineEdit_supprimerlocal">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>50</y>
+         <width>113</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="CINlabel_4">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>50</y>
+         <width>101</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>identifiant local</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="supprimerlocal">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>90</y>
+         <width>113</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+       </property>
+       <property name="text">
+        <string>Supprimer</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_disponibilite">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>80</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTableView" name="tableView_local">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>30</y>
+        <width>671</width>
+        <height>291</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="modifierlocal">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>250</y>
+        <width>93</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Modifier</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="exportpdflocal">
+      <property name="geometry">
+       <rect>
+        <x>1100</x>
+        <y>70</y>
+        <width>93</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Export PDF</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_19">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>420</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>identifiant local</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_chercherlocal">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>460</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Chercher</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_chercherlocal">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>420</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="trierlocal">
+      <property name="geometry">
+       <rect>
+        <x>1100</x>
+        <y>140</y>
+        <width>93</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Trier</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="imprimerlocal">
+      <property name="geometry">
+       <rect>
+        <x>1100</x>
+        <y>210</y>
+        <width>93</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Imprimer</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_21">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>identifiant</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_idl">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>10</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_23">
+      <property name="geometry">
+       <rect>
+        <x>-6</x>
+        <y>0</y>
+        <width>1291</width>
+        <height>541</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>couverture photo.jpg</pixmap>
+      </property>
+     </widget>
+     <zorder>label_23</zorder>
+     <zorder>label</zorder>
+     <zorder>label_2</zorder>
+     <zorder>label_3</zorder>
+     <zorder>label_4</zorder>
+     <zorder>label_5</zorder>
+     <zorder>lineEdit_nom</zorder>
+     <zorder>lineEdit_capacite</zorder>
+     <zorder>lineEdit_prix</zorder>
+     <zorder>lineEdit_adresse</zorder>
+     <zorder>pushButton</zorder>
+     <zorder>label_6</zorder>
+     <zorder>pushButton_4</zorder>
+     <zorder>groupBox_6</zorder>
+     <zorder>lineEdit_disponibilite</zorder>
+     <zorder>tableView_local</zorder>
+     <zorder>modifierlocal</zorder>
+     <zorder>exportpdflocal</zorder>
+     <zorder>label_19</zorder>
+     <zorder>button_chercherlocal</zorder>
+     <zorder>lineEdit_chercherlocal</zorder>
+     <zorder>trierlocal</zorder>
+     <zorder>imprimerlocal</zorder>
+     <zorder>label_21</zorder>
+     <zorder>lineEdit_idl</zorder>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Troupe musicale</string>
+     </attribute>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>40</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Nom du troupe</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>80</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Disponibilité</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>130</y>
+        <width>55</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Type</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_16">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>190</y>
+        <width>55</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Prix</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>240</y>
+        <width>121</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Dureé du spectacle</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_nomt">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>40</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_type">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>130</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_prixt">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>190</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="ajoutertroupe">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>280</y>
+        <width>91</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Ajouter </string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>0</y>
+        <width>221</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Departement coordination generale</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_8">
+      <property name="geometry">
+       <rect>
+        <x>1122</x>
+        <y>470</y>
+        <width>91</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Quitter</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_9">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>470</y>
+        <width>71</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Back</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_disponibilitet">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>80</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_duree">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>240</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>10</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>identification</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_idt">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>10</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTableView" name="tableView_troupe">
+      <property name="geometry">
+       <rect>
+        <x>465</x>
+        <y>71</y>
+        <width>671</width>
+        <height>311</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Supprimer_3">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>470</y>
+        <width>113</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Supprimer</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>430</y>
+        <width>55</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ID troupe</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_supprimertroupe">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>430</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="modifiertroupe">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>280</y>
+        <width>93</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Modifier</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="exportpdf">
+      <property name="geometry">
+       <rect>
+        <x>1150</x>
+        <y>90</y>
+        <width>93</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Export PDF</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_cherchert">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>470</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Chercher</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_cherchertroupe">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>430</y>
+        <width>113</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>400</y>
+        <width>111</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>chercher troupe</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_12">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>430</y>
+        <width>55</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>id</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="button_triertroupe">
+      <property name="geometry">
+       <rect>
+        <x>1150</x>
+        <y>170</y>
+        <width>93</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Trier</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="imprimertroupe">
+      <property name="geometry">
+       <rect>
+        <x>1150</x>
+        <y>250</y>
+        <width>93</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Imprimer</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_7">
+      <property name="geometry">
+       <rect>
+        <x>-6</x>
+        <y>0</y>
+        <width>1291</width>
+        <height>531</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>couverture photo.jpg</pixmap>
+      </property>
+     </widget>
+     <zorder>label_7</zorder>
+     <zorder>label_13</zorder>
+     <zorder>label_14</zorder>
+     <zorder>label_15</zorder>
+     <zorder>label_16</zorder>
+     <zorder>label_17</zorder>
+     <zorder>lineEdit_nomt</zorder>
+     <zorder>lineEdit_type</zorder>
+     <zorder>lineEdit_prixt</zorder>
+     <zorder>ajoutertroupe</zorder>
+     <zorder>label_18</zorder>
+     <zorder>pushButton_8</zorder>
+     <zorder>pushButton_9</zorder>
+     <zorder>lineEdit_disponibilitet</zorder>
+     <zorder>lineEdit_duree</zorder>
+     <zorder>label_9</zorder>
+     <zorder>lineEdit_idt</zorder>
+     <zorder>tableView_troupe</zorder>
+     <zorder>Supprimer_3</zorder>
+     <zorder>label_10</zorder>
+     <zorder>lineEdit_supprimertroupe</zorder>
+     <zorder>modifiertroupe</zorder>
+     <zorder>exportpdf</zorder>
+     <zorder>button_cherchert</zorder>
+     <zorder>lineEdit_cherchertroupe</zorder>
+     <zorder>label_11</zorder>
+     <zorder>label_12</zorder>
+     <zorder>button_triertroupe</zorder>
+     <zorder>imprimertroupe</zorder>
+    </widget>
+    <widget class="QWidget" name="statistique">
+     <attribute name="title">
+      <string>Stat local</string>
+     </attribute>
+     <widget class="QCustomPlot" name="plott" native="true">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>40</y>
+        <width>1121</width>
+        <height>491</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="geometry">
+       <rect>
+        <x>1170</x>
+        <y>250</y>
+        <width>93</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Quitter</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_22">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>10</y>
+        <width>141</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Statistique des locaux</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>Stat Troupe</string>
+     </attribute>
+     <widget class="QCustomPlot" name="plot" native="true">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>50</y>
+        <width>1071</width>
+        <height>451</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_20">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>20</y>
+        <width>321</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>statistique troupe musicale</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="geometry">
+       <rect>
+        <x>1160</x>
+        <y>240</y>
+        <width>93</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Quitter</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1313</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>label_23</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1177</x>
+     <y>516</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1135</x>
+     <y>365</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
