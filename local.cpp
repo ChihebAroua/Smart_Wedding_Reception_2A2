@@ -141,7 +141,7 @@ void local::statistique(QVector<double>* ticks,QVector<QString> *labels)
 }
 
 
-
+//yayayaya
 
 
 
