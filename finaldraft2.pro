@@ -16,6 +16,7 @@ SOURCES += \
     local.cpp \
     main.cpp \
     mainwindow.cpp \
+    notification.cpp \
     qcustomplot.cpp \
     troupe.cpp
 
@@ -23,6 +24,7 @@ HEADERS += \
     connection.h \
     local.h \
     mainwindow.h \
+    notification.h \
     qcustomplot.h \
     troupe.h
 
@@ -33,3 +35,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    pic.qrc

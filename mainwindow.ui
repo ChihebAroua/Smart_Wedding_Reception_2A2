@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>10</y>
+      <y>0</y>
       <width>1291</width>
       <height>581</height>
      </rect>
@@ -27,7 +27,7 @@
      <string notr="true">background:rgb(255, 255, 255)</string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -453,7 +453,7 @@ color :white;
        </rect>
       </property>
      </widget>
-     <widget class="QLabel" name="label_23">
+     <widget class="QLabel" name="label_8">
       <property name="geometry">
        <rect>
         <x>-6</x>
@@ -469,7 +469,7 @@ color :white;
        <pixmap>couverture photo.jpg</pixmap>
       </property>
      </widget>
-     <zorder>label_23</zorder>
+     <zorder>label_8</zorder>
      <zorder>label</zorder>
      <zorder>label_2</zorder>
      <zorder>label_3</zorder>
@@ -1107,22 +1107,5 @@ color :white;
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>pushButton_4</sender>
-   <signal>clicked()</signal>
-   <receiver>label_23</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1177</x>
-     <y>516</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1135</x>
-     <y>365</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
