@@ -93,6 +93,7 @@ if(test==true)
 {
     ui->tableView->setModel(tmppack.afficher_pack());
     ui->comboBoxP->setModel(tmppack.afficher_pack());
+    ui->packM->setModel(tmppack.afficher_pack());
 
     QMessageBox::information(nullptr,QObject::tr("Ajouter une pack"),
                              QObject::tr("Pack ajoutée. \n"
