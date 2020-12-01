@@ -1008,17 +1008,17 @@ color :white;
       </item>
       <item>
        <property name="text">
+        <string>avance</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
         <string>prenom</string>
        </property>
       </item>
       <item>
        <property name="text">
         <string>pack</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>avance</string>
        </property>
       </item>
      </widget>
@@ -1075,17 +1075,17 @@ color :white;
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>680</x>
-        <y>450</y>
-        <width>201</width>
-        <height>111</height>
+        <x>580</x>
+        <y>460</y>
+        <width>301</width>
+        <height>181</height>
        </rect>
       </property>
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../hvu.png</pixmap>
+       <pixmap resource="resource.qrc">:/new/son/build-departementClient-Desktop_Qt_5_9_9_MinGW_32bit-Debug/ROYALGEMS.png</pixmap>
       </property>
      </widget>
     </widget>
@@ -1860,11 +1860,6 @@ color :white;
       </item>
       <item>
        <property name="text">
-        <string>prix</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
         <string>id_pack</string>
        </property>
       </item>
@@ -1872,17 +1867,17 @@ color :white;
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>410</x>
+        <x>320</x>
         <y>460</y>
-        <width>201</width>
-        <height>111</height>
+        <width>301</width>
+        <height>181</height>
        </rect>
       </property>
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../hvu.png</pixmap>
+       <pixmap resource="resource.qrc">:/new/son/build-departementClient-Desktop_Qt_5_9_9_MinGW_32bit-Debug/ROYALGEMS.png</pixmap>
       </property>
      </widget>
     </widget>
@@ -1900,6 +1895,8 @@ color :white;
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

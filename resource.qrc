@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/new/son">
         <file>son1.wav</file>
+        <file>../build-departementClient-Desktop_Qt_5_9_9_MinGW_32bit-Debug/ROYALGEMS.png</file>
     </qresource>
 </RCC>

@@ -133,13 +133,13 @@ QSqlQueryModel * pack::tri_pack(QString ch)
         }
         else if(ch=="id_pack")
         {
-            model->setQuery("select * from pack  order by id_pack" );
+            model->setQuery("select * from pack  order by idpack" );
         }
 
-        else if(ch=="prix")
+       /* else if(ch=="prix")
         {
             model->setQuery("select * from pack  order by prix" );
-                }
+                }*/
        else if(ch=="reduction")
         {
             model->setQuery("select * from pack  order by reduction" );

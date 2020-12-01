@@ -143,7 +143,10 @@ QSqlQueryModel *Client::tri_client(QString ch)
     {
         model->setQuery("select * from client  order by pack" );
            }
-
+    else if(ch=="avance")
+     {
+         model->setQuery("select * from client  order by avance" );
+            }
         model->setHeaderData(0,Qt::Horizontal,QObject::tr("Nom"));
         model->setHeaderData(1,Qt::Horizontal,QObject::tr("Prénom"));
         model->setHeaderData(2,Qt::Horizontal,QObject::tr("CIN"));
