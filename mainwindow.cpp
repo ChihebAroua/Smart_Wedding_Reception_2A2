@@ -12,11 +12,14 @@
 #include <QTextStream>
 #include <QPainter>
 #include <QTextStream>
+#include<QIntValidator>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->lineEdit_cin->setValidator(new QIntValidator(0,99999999,this));
+    ui->lineEdit_cin_2->setValidator(new QIntValidator(0,99999999,this));
 ui->tableView_employes->setModel(tmp_employes.afficher());
 ui->comboBox_id_modifier->setModel(tmp_employes.afficher_combo());
 ui->tableView_tache->setModel(tmp_taches.afficher());
@@ -259,12 +262,10 @@ void MainWindow::on_pushButton_trier_clicked()
 {    if (ui->comboBox_trier->currentText()=="nom")
     {
         ui->tableView_tache->setModel(tmp_taches.trier(1));}
-    else if (ui->comboBox_trier->currentText()=="date de début ")
+    else if (ui->comboBox_trier->currentText()=="l'id de la tache")
     {
         ui->tableView_tache->setModel(tmp_taches.trier(2));}
-    else if (ui->comboBox_trier->currentText()=="date du fin")
-    {
-        ui->tableView_tache->setModel(tmp_taches.trier(3));}
+
     else if (ui->comboBox_trier->currentText()=="état")
     {
         ui->tableView_tache->setModel(tmp_taches.trier(4));}
@@ -384,7 +385,7 @@ void MainWindow::make_plot(){// set dark background gradient:
     amande->setAntialiased(false);
     amande->setStackingGap(1);
      //set names and colors:
-    amande->setName("Repartition des commandes selon quantitées ");
+    amande->setName("Repartition des employés selon les salaires ");
     amande->setPen(QPen(QColor(0, 168, 140).lighter(130)));
     amande->setBrush(QColor(0, 168, 140));
     // stack bars on top of each other:
@@ -410,7 +411,7 @@ void MainWindow::make_plot(){// set dark background gradient:
     ui->plot->xAxis->setLabelColor(Qt::white);
 
     // prepare y axis:
-    ui->plot->yAxis->setRange(0,3500);
+    ui->plot->yAxis->setRange(0,4000);
     ui->plot->yAxis->setPadding(5); // a bit more space to the left border
     ui->plot->yAxis->setLabel("Salaire des employés");
     ui->plot->yAxis->setBasePen(QPen(Qt::white));

@@ -104,9 +104,8 @@ else if(n==5)
      if(n==1)
      {model1->setQuery("select * from taches order by nom "  );}
 else if(n==2)
-    { model1->setQuery("select * from taches order by  date_debut " );}
-else if(n==3)
-    { model1->setQuery("select * from taches order by  date_fin " );}
+    { model1->setQuery("select * from taches order by ID_tache " );}
+
 else if(n==4)
     { model1->setQuery("select * from taches order by etat " );}
 
