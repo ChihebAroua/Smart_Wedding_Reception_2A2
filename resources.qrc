@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/new/image">
+        <file>ROYALGEMS.png</file>
+        <file>hvu.png</file>
+    </qresource>
+</RCC>

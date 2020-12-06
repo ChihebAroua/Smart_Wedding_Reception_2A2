@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     ui->setupUi(this);
-     son=new QSound("C:/Users/User/Desktop/2eme/semestre 1/projet c++/Nouveau dossier/departementClient/son1.wav");
+     son=new QSound("C:/Users/User/Desktop/2eme/semestre 1/projet c++/projet final/departementClient/son1.wav");
     ui->tableView->setModel(tmppack.afficher_pack());
     ui->tableView_2->setModel(tmpclient.afficher_client());
     ui->comboBoxP->setModel(tmppack.afficher_pack());
@@ -56,16 +56,7 @@ ui->IDSupp->setValidator(new QRegExpValidator(QRegExp("[0-9]*"),this));
               ui->decorationMA->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
                ui->Nomp->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
                 ui->Nomp_2->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
-                 ui->localp->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
-                  ui->localp_2->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
-                   ui->commandep->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
-                    ui->commandep_2->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
-                     ui->troupep->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
-                      ui->troupep_2->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
-                       ui->vehiculep->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
-                        ui->vehiculep_2->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
-                         ui->decorationp->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
-                          ui->decorationp_2->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
+
 }
 
 MainWindow::~MainWindow()
@@ -82,11 +73,11 @@ QString nomP= ui ->Nomp->text() ;
 QString idpack= ui ->idp->text() ;
 int reduction= ui->reductionp->text().toInt();
 int  prixP= ui->prixp->text().toFloat();
-QString local=ui->localp->text();
-QString commande=ui->commandep->text();
-QString troupe=ui->troupep->text();
-QString vehicule=ui->vehiculep->text();
-QString decoration=ui->decorationp->text();
+QString local=ui->comboBoxLA->currentText();
+QString commande=ui->comboBoxCA->currentText();
+QString troupe=ui->comboBoxTA->currentText();
+QString vehicule=ui->comboBoxVA->currentText();
+QString decoration=ui->comboBoxDA->currentText();
 pack p(nomP,idpack,local,commande,troupe,vehicule,decoration,reduction,prixP);
 bool test=p.ajouter_pack();
 if(test==true)
@@ -143,11 +134,11 @@ void MainWindow::on_EnregistrerP_clicked()
     QString idpack= ui ->idp_2->text() ;
     int reduction= ui->reductionp_2->text().toInt();
     int  prixP= ui->prixp_2->text().toFloat();
-    QString local=ui->localp_2->text();
-    QString commande=ui->commandep_2->text();
-    QString troupe=ui->troupep_2->text();
-    QString vehicule=ui->vehiculep_2->text();
-    QString decoration=ui->decorationp_2->text();
+    QString local=ui->comboBoxLM->currentText();
+    QString commande=ui->comboBoxCM->currentText();
+    QString troupe=ui->comboBoxTM->currentText();
+    QString vehicule=ui->comboBoxVM->currentText();
+    QString decoration=ui->comboBoxDM->currentText();
     pack p(nomP,idpack,local,commande,troupe,vehicule,decoration,reduction,prixP);
     bool test= p. modifier_pack();
     if(test==true)
@@ -345,4 +336,80 @@ void MainWindow::on_PDFAc_clicked()
                 painter.setPen(Qt::black);
                 painter.drawText(2000,5300,decoration);
                 painter.end();
+}
+
+void MainWindow::on_tableView_2_activated(const QModelIndex &index)
+{
+
+}
+
+void MainWindow::on_PDFMc_clicked()
+{
+    son->play();
+
+                   QPixmap logo;
+                   logo.load("ROYALGEMS");
+                   logo.scaled(logo.width()*330,logo.height()*169);
+                   QString nom= ui ->NomA_2->text() ;
+                   QString prenom= ui ->PrenomA_2->text() ;
+                   QString cin= ui ->CINA_2->text() ;
+                   int avance= ui->avanceA_4->text().toFloat();
+                   QString packC=ui->packM->currentText();
+                   QString date= ui ->dateM_A_2->text() ;
+                   QString heure= ui ->HeureM_A_2->text() ;
+                   QString local=ui->localMA->text();
+                   QString commande=ui->commandeMA->text();
+                   QString troupe=ui->troupeMA->text();
+                   QString vehicule=ui->vehiculeMA->text();
+                   QString decoration=ui->decorationMA->text();
+                   QString pdf_name= "contart_"+nom+"_"+prenom+".pdf";
+                   QPdfWriter pdf(pdf_name);
+                   QPainter painter(&pdf);
+                   painter.drawPixmap(3000,0,logo.width()*10,logo.height()*10,logo);
+                   QString avanceC= QString::number(avance);
+
+                      painter.setPen(Qt::blue);
+                      painter.drawText(5000,2000,"Contart client ");
+                   painter.setPen(Qt::blue);
+                   painter.drawText(100,28000,"Nom : ");
+                   painter.setPen(Qt::black);
+                   painter.drawText(2000,2800,nom);
+                   painter.setPen(Qt::blue);
+                   painter.drawText(100,3100,"Prenom : ");
+                   painter.setPen(Qt::black);
+                   painter.drawText(2000,3100,prenom);
+                   painter.setPen(Qt::blue);
+                   painter.drawText(100,3400,"Cin : ");
+                   painter.setPen(Qt::black);
+                   painter.drawText(2000,3400,cin);
+                   painter.setPen(Qt::blue);
+                   painter.drawText(100,3700,"Pack : ");
+                   painter.setPen(Qt::black);
+                   painter.drawText(2000,3700,packC);
+                   painter.setPen(Qt::blue);
+                   painter.drawText(100,4000,"Avance : ");
+                   painter.setPen(Qt::black);
+                   painter.drawText(2000,4000,avanceC);
+                   painter.setPen(Qt::blue);
+                   painter.drawText(100,4300,"Local : ");
+                   painter.setPen(Qt::black);
+                   painter.drawText(2000,4300,local);
+                   painter.setPen(Qt::blue);
+                   painter.drawText(100,4600,"Troupe musical : ");
+                   painter.setPen(Qt::black);
+                   painter.drawText(2000,4600,troupe);
+                   painter.setPen(Qt::blue);
+                   painter.drawText(100,4900,"Véhicule : ");
+                   painter.setPen(Qt::black);
+                   painter.drawText(2000,4900,vehicule);
+                   painter.setPen(Qt::blue);
+                   painter.drawText(100,5200,"Commande : ");
+                   painter.setPen(Qt::black);
+                   painter.drawText(2000,5200,commande);
+                   painter.setPen(Qt::blue);
+                   painter.drawText(100,5300,"Décoration : ");
+                   painter.setPen(Qt::black);
+                   painter.drawText(2000,5300,decoration);
+                   painter.end();
+
 }

@@ -1,5 +1,6 @@
 #include "client.h"
-
+#include <QMessageBox>
+#include <QDebug>
 Client::Client()
 {
      nomC="";
@@ -44,8 +45,8 @@ QString Client::get_vehicule(){return vehiculeC;}
 QString Client::get_decoration(){return DecorationC;}
  bool Client::ajouter_client()
  {
-     QSqlQuery query;
-//QString localp,commandep,vehiculep,troupep,decorationp;
+     QSqlQuery query,q;
+   QString  localp, commandep,vehiculep,troupep,decorationp;
      QString avance= QString::number(AvanceC);
      query.prepare("INSERT INTO client(nom, prenom,cin,pack,DATEM,heure,local, commande, vehicule, decoration, troupe, avance)"
                    "VALUES (:nom, :prenom,:cin,:pack,:date,:heure,:local, :commande, :vehicule, :decoration, :troupe, :avance)");
@@ -54,28 +55,40 @@ QString Client::get_decoration(){return DecorationC;}
      query.bindValue(":prenom",prenomC);
      query.bindValue(":cin",CIN);
      query.bindValue(":pack",packC);
-    // q.prepare("Select from pack set local=:localp,commande=:commandep,troupe=:troupep,vehicule=:vehiculep,decoration=:decorationp where nom=:pack");
-
-    /* q.bindValue(localp,":localp");
-q.bindValue(":commandep",commandep);
-q.bindValue(":vehiculep",vehiculep);
-q.bindValue(":troupep",troupep);
-q.bindValue(":decorationp",decorationp);*/
      query.bindValue(":date",dateC);
-     query.bindValue(":heure",heureC);
+  query.bindValue(":heure",heureC);
 
+     q.prepare("Select local , commande, vehicule,decoration,troupe from pack where nom LIKE '"+packC+"'");
+     q.bindValue("packch",packC);
+     if(q.first() == true)
+         {
+if( q.value(2).toString()=="oui")
+{localp="oui";}
+
+commandep   = q.value(1).toString();
+vehiculep   = q.value(2).toString();
+decorationp = q.value(3).toString();
+troupep     = q.value(4).toString();}
+if(localp=="oui")
      query.bindValue(":local",localC);
-   // query.bindValue(":local","NULL");
-
+  else if(localp=="non")
+    query.bindValue(":local","NULL");
+if(commandep=="oui")
      query.bindValue(":commande",commandeC);
- //query.bindValue(":commande","NULL");
-     query.bindValue(":vehicule",vehiculeC);
-    //query.bindValue(":vehicule","NULL");
-
+ else if(commandep=="non")
+    query.bindValue(":commande","NULL");
+if(vehiculep=="oui")
+query.bindValue(":vehicule",vehiculeC);
+    else if(vehiculep=="non")
+query.bindValue(":vehicule","NULL");
+if(troupep=="oui")
       query.bindValue(":troupe",troupeC);
-     //query.bindValue(":troupe","NULL");
-    query.bindValue(":decoration",DecorationC);
-     //query.bindValue(":decoration","NULL");
+    else if(troupep=="non")
+  query.bindValue(":troupe","NULL");
+if(decorationp=="oui")
+query.bindValue(":decoration",DecorationC);
+     else if(decorationp=="non")
+    query.bindValue(":decoration","NULL");
 
      query.bindValue(":avance",avance);
      return query.exec();
@@ -91,10 +104,10 @@ q.bindValue(":decorationp",decorationp);*/
   model->setHeaderData(4,Qt::Horizontal,QObject::tr("Date"));
   model->setHeaderData(5,Qt::Horizontal,QObject::tr("Heure"));
   model->setHeaderData(6,Qt::Horizontal,QObject::tr("Local"));
-  model->setHeaderData(7,Qt::Horizontal,QObject::tr("Commande"));
+  model->setHeaderData(7,Qt::Horizontal,QObject::tr("Troupe"));
   model->setHeaderData(8,Qt::Horizontal,QObject::tr("Vehicule"));
   model->setHeaderData(9,Qt::Horizontal,QObject::tr("Decoration"));
-  model->setHeaderData(10,Qt::Horizontal,QObject::tr("Troupe"));
+  model->setHeaderData(10,Qt::Horizontal,QObject::tr("Commande"));
   model->setHeaderData(11,Qt::Horizontal,QObject::tr("Avance"));
 
   return model;
@@ -111,10 +124,9 @@ q.bindValue(":decorationp",decorationp);*/
      QSqlQuery query;
 
      QString avance= QString::number(AvanceC);
-
-    query.prepare("UPDATE  PACK set nom=:nom, prenom=:prenom,cin=:cin,pack=:pack,DATEM=:date,heure=:heure,local=:local, commande=:commande, vehicule=:vehicule, decoration=:decoration, troupe=:troupe, avance=:avance WHERE cin=:cin")  ;
-    query.bindValue(":nomP",nomC);
-    query.bindValue(":prenomP",prenomC);
+    query.prepare("UPDATE  client set nom=:nom, prenom=:prenom,pack=:pack,DATEM=:date,heure=:heure,local=:local, commande=:commande, vehicule=:vehicule, decoration=:decoration, troupe=:troupe, avance=:avance WHERE CIN=:cin")  ;
+    query.bindValue(":nom",nomC);
+    query.bindValue(":prenom",prenomC);
     query.bindValue(":cin",CIN);
     query.bindValue(":pack",packC);
     query.bindValue(":date",dateC);
@@ -137,7 +149,11 @@ QSqlQueryModel *Client::tri_client(QString ch)
     {
         model->setQuery("select * from client  order by prenom" );
     }
+    else if(ch=="date")
+        {
 
+        model->setQuery("select * from client  order by DATEM" );
+               }
 
    else if(ch=="pack")
     {
@@ -154,10 +170,10 @@ QSqlQueryModel *Client::tri_client(QString ch)
         model->setHeaderData(4,Qt::Horizontal,QObject::tr("Date"));
         model->setHeaderData(5,Qt::Horizontal,QObject::tr("Heure"));
         model->setHeaderData(6,Qt::Horizontal,QObject::tr("Local"));
-        model->setHeaderData(7,Qt::Horizontal,QObject::tr("Commande"));
+        model->setHeaderData(7,Qt::Horizontal,QObject::tr("Troupe"));
         model->setHeaderData(8,Qt::Horizontal,QObject::tr("Vehicule"));
         model->setHeaderData(9,Qt::Horizontal,QObject::tr("Decoration"));
-        model->setHeaderData(10,Qt::Horizontal,QObject::tr("Troupe"));
+        model->setHeaderData(10,Qt::Horizontal,QObject::tr("Commande"));
         model->setHeaderData(11,Qt::Horizontal,QObject::tr("Avance"));
               return model;
 }
@@ -192,10 +208,10 @@ QSqlQueryModel *Client::recherche_client(QString ch,QString mot)
     model->setHeaderData(4,Qt::Horizontal,QObject::tr("Date"));
     model->setHeaderData(5,Qt::Horizontal,QObject::tr("Heure"));
     model->setHeaderData(6,Qt::Horizontal,QObject::tr("Local"));
-    model->setHeaderData(7,Qt::Horizontal,QObject::tr("Commande"));
+    model->setHeaderData(7,Qt::Horizontal,QObject::tr("Troupe"));
     model->setHeaderData(8,Qt::Horizontal,QObject::tr("Vehicule"));
     model->setHeaderData(9,Qt::Horizontal,QObject::tr("Decoration"));
-    model->setHeaderData(10,Qt::Horizontal,QObject::tr("Troupe"));
+    model->setHeaderData(10,Qt::Horizontal,QObject::tr("Commande"));
     model->setHeaderData(11,Qt::Horizontal,QObject::tr("Avance"));
           return model;
 }

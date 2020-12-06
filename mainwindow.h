@@ -52,6 +52,10 @@ private slots:
 
     void on_PDFAc_clicked();
 
+    void on_tableView_2_activated(const QModelIndex &index);
+
+    void on_PDFMc_clicked();
+
 private:
     Ui::MainWindow *ui;
     pack tmppack;

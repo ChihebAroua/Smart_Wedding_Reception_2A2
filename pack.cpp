@@ -45,37 +45,18 @@ bool pack::ajouter_pack()
                 "VALUES (:nomP, :idpack, :local, :commande, :vehicule, :decoration, :troupe, :reduction, :prixP)");
   query.bindValue(":nomP",nomP);
   query.bindValue(":idpack",idpack);
-  if(local!="oui" && local!="non")
-  {
-  return false;
-  }
-      else
-  {query.bindValue(":local",local);}
-  if(commande!="oui" && commande!="non")
-  {
-  return false;
-  }
-      else
-  {query.bindValue(":commande",commande);}
-  if(vehicule!="oui" && vehicule!="non")
-  {
-  return false;
-  }
-      else
-  {query.bindValue(":vehicule",vehicule);}
-  if(troupe!="oui" && troupe!="non")
-  {
-  return false;
-  }
-      else
-  {query.bindValue(":troupe",troupe);}
-  if(decoration!="oui" && decoration!="non")
-  {
-  return false;
-  }
-      else
-  {query.bindValue(":decoration",decoration);}
-  query.bindValue(":reduction",red);
+
+  query.bindValue(":local",local);
+
+
+
+
+  query.bindValue(":commande",commande);
+
+query.bindValue(":vehicule",vehicule);
+ query.bindValue(":troupe",troupe);
+ query.bindValue(":decoration",decoration);
+      query.bindValue(":reduction",red);
   query.bindValue(":prixP",prix);
   return query.exec();
 }
