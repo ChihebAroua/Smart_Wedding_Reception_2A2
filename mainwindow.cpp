@@ -8,12 +8,27 @@
 #include<QtPrintSupport/QPrinter>
 #include<QFileDialog>
 #include<QTextDocument>
-
+#include<QIntValidator>
+#include<QValidator>
+#include<QPdfWriter>
+#include<QPainter>
+#include "notification.h"
+#include <QSystemTrayIcon>
+#include <QtDebug>
+#include <QObject>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QRegExp rx("(|\"|/|\\.,|[A-Z,a-z]){30}");
+    ui->lineEdit_nom->setValidator(new QRegExpValidator(rx, this));
+    ui->lineEdit_num_cmd->setValidator(new QIntValidator(0,99999999,this));
+    ui->lineEdit_num->setValidator(new QIntValidator(0,99999999,this));
+    ui->lineEdit_quantite->setValidator(new QIntValidator(0,99999999,this));
+    ui->lineEdit_prix->setValidator(new QIntValidator(0,99999999,this));
+    ui->lineEdit_tva->setValidator(new QIntValidator(0,9999,this));
+    ui->lineEdit_totale->setValidator(new QIntValidator(0,999999999,this));
     ui->tableView->setModel(tempfournisseur.afficher());
     ui->tableView_2->setModel(tempcommande.afficher());
 
@@ -25,7 +40,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_pushButton_Ajouter_clicked()
-{
+{   notification n;
     QString id_four=ui->lineEdit_id->text();
     QString nom_four=ui->lineEdit_nom->text();
     QString adresse=ui->lineEdit_adresse->text();
@@ -34,7 +49,9 @@ void MainWindow::on_pushButton_Ajouter_clicked()
     fournisseur f(id_four,nom_four,adresse,num_tel,type_produit);
     bool test=f.ajouter();
     if(test)
-    {
+    {   n.setPopupText("Un fournisseur a été ajouté");
+        n.show();
+      // mysystem->showMessage(tr("Notification"),tr("Il y a un ajout d'un fournisseur "));
         ui->tableView->setModel(tempfournisseur.afficher());
         QMessageBox::information(nullptr,QObject::tr("Ajout"),
                                  QObject::tr("Ajout avec succès.\n""Click Cancel to exit."),QMessageBox::Cancel);
@@ -43,8 +60,12 @@ void MainWindow::on_pushButton_Ajouter_clicked()
 
   }
     else
-        QMessageBox::critical(nullptr,QObject::tr("Ajout"),
+    {
+        //  n.setPopupText("il y'a un probleme");
+          //  n.show();
+       QMessageBox::critical(nullptr,QObject::tr("Ajout"),
                                  QObject::tr("Ajout echoue.\n""Click Cancel to exit."),QMessageBox::Cancel);
+    }
 }
 
 void MainWindow::on_pushButton_7_clicked()
@@ -199,29 +220,46 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::on_pushButton_11_clicked()
 {
-    QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
-        if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+    QPdfWriter pdf("C:/Users/Helmi/Documents/Gestion_achats/pdfcommande.pdf");
+                      QPainter painter(&pdf);
+                     int i = 4000;
+                          painter.setPen(Qt::red);
+                          painter.setFont(QFont("Arial", 25));
+                          painter.drawText(950,1100,"Liste Des commandes");
+                          painter.setPen(Qt::black);
+                          painter.setFont(QFont("Arial", 15));
+                         // painter.drawText(1100,2000,afficheDC);
+                          painter.drawRect(100,100,7300,2600);
+                          painter.drawPixmap(QRect(7600,70,2000,2600),QPixmap("C:/Users/Helmi/Documents/Gestion_achats/logo.png"));
+                          painter.drawRect(0,3000,9600,500);
+                          painter.setFont(QFont("Arial", 9));
+                          painter.drawText(200,3300,"num_cmd");
+                          painter.drawText(1200,3300,"id_four");
+                          painter.drawText(2300,3300,"ref_produit");
+                          painter.drawText(3700,3300,"quantite");
+                          painter.drawText(5000,3300,"date");
+                          painter.drawText(6700,3300,"prix_unitaire");
+                          painter.drawText(7900,3300,"TVA");
+                          painter.drawText(8700,3300,"totale");
 
-        QPrinter printer(QPrinter::PrinterResolution);
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setPaperSize(QPrinter::A4);
-        printer.setOutputFileName(fileName);
 
-        QTextDocument doc;
-        QSqlQuery q;
-        q.prepare("SELECT * FROM COMMANDE ");
-        q.exec();
-        QString pdf="<br> <h1  style='color:red'>LISTE DES COMMANDES  <br></h1>\n <br> <table>  <tr>  <th> Num_cmd </th> <th>id_four </th> <th>ref_produit </th> <th> quantite </th> <th>date_cmd </th> <th>prix_unitaire </th> <th>TVA </th> <th>totale </th>    </tr>" ;
+                          QSqlQuery query;
+                          query.prepare("select * from commande");
+                          query.exec();
+                          while (query.next())
+                          {
+                              painter.drawText(200,i,query.value(0).toString());
+                              painter.drawText(1300,i,query.value(1).toString());
+                              painter.drawText(2600,i,query.value(2).toString());
+                              painter.drawText(3800,i,query.value(3).toString());
+                              painter.drawText(4700,i,query.value(4).toString());
+                              painter.drawText(6900,i,query.value(5).toString());
+                              painter.drawText(7900,i,query.value(6).toString());
+                              painter.drawText(8700,i,query.value(7).toString());
 
 
-        while ( q.next()) {
-
-            pdf= pdf+ " <br> <tr> <td>"+ q.value(0).toString()+" " + q.value(1).toString() +"</td>   <td>" +q.value(2).toString() +"  "" " "</td>   <td>"+q.value(3).toString()+"</td>   <td>"+q.value(4).toString()+" "  " " "</td>   <td>"+q.value(5).toString()+" </td> <td>"+q.value(6).toString()+" <td>"+q.value(7).toString()+" <td>"+q.value(8).toString()+" </td>" ;
-
-        }
-        doc.setHtml(pdf);
-        doc.setPageSize(printer.pageRect().size()); // This is necessary if you want to hide the page number
-        doc.print(&printer);
+                             i = i + 500;
+                          }
 }
 
 void MainWindow::on_tableView_activated(const QModelIndex &index)
@@ -276,4 +314,44 @@ void MainWindow::on_tableView_2_activated(const QModelIndex &index)
               QMessageBox::critical(nullptr, QObject::tr("error"),
                           QObject::tr("error.\n""Click Cancel to exit."), QMessageBox::Cancel);
           }
+}
+
+void MainWindow::on_pushButton_12_clicked()
+{
+    QPdfWriter pdf("C:/Users/Helmi/Documents/Gestion_achats/pdffournisseur.pdf");
+                      QPainter painter(&pdf);
+                     int i = 4000;
+                          painter.setPen(Qt::red);
+                          painter.setFont(QFont("Arial", 25));
+                          painter.drawText(950,1100,"Liste Des Fournisseur");
+                          painter.setPen(Qt::black);
+                          painter.setFont(QFont("Arial", 15));
+                         // painter.drawText(1100,2000,afficheDC);
+                          painter.drawRect(100,100,7300,2600);
+                          painter.drawPixmap(QRect(7600,70,2000,2600),QPixmap("C:/Users/Helmi/Documents/Gestion_achats/logo.png"));
+                          painter.drawRect(0,3000,9600,500);
+                          painter.setFont(QFont("Arial", 9));
+                          painter.drawText(200,3300,"id_four");
+                          painter.drawText(1200,3300,"nom_four");
+                          painter.drawText(2600,3300,"adresse_four");
+                          painter.drawText(4000,3300,"num_tel");
+                          painter.drawText(5400,3300,"ref_produit");
+
+
+
+                          QSqlQuery query;
+                          query.prepare("select * from fournisseur");
+                          query.exec();
+                          while (query.next())
+                          {
+                              painter.drawText(200,i,query.value(0).toString());
+                              painter.drawText(1300,i,query.value(1).toString());
+                              painter.drawText(2600,i,query.value(2).toString());
+                              painter.drawText(3900,i,query.value(3).toString());
+                              painter.drawText(5500,i,query.value(4).toString());
+
+
+
+                             i = i + 500;
+                          }
 }

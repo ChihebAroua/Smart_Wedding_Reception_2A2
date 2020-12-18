@@ -14,13 +14,15 @@ SOURCES += \
     connection.cpp \
     fournisseur.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    notification.cpp
 
 HEADERS += \
     commande.h \
     connection.h \
     fournisseur.h \
-    mainwindow.h
+    mainwindow.h \
+    notification.h
 
 FORMS += \
     mainwindow.ui

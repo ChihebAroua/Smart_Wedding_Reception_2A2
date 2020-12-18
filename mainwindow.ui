@@ -175,6 +175,18 @@
          <height>28</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+       </property>
        <property name="text">
         <string>Ajouter</string>
        </property>
@@ -187,6 +199,18 @@
          <width>141</width>
          <height>28</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
        </property>
        <property name="text">
         <string>Modifier</string>
@@ -206,11 +230,23 @@
      <widget class="QPushButton" name="pushButton_3">
       <property name="geometry">
        <rect>
-        <x>640</x>
+        <x>630</x>
         <y>40</y>
-        <width>161</width>
+        <width>101</width>
         <height>28</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
       </property>
       <property name="text">
        <string>Recherche</string>
@@ -250,6 +286,18 @@
          <height>28</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+       </property>
        <property name="text">
         <string>Supprimer</string>
        </property>
@@ -274,6 +322,18 @@
         <height>41</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
       <property name="text">
        <string>Back</string>
       </property>
@@ -281,11 +341,23 @@
      <widget class="QPushButton" name="pushButton_6">
       <property name="geometry">
        <rect>
-        <x>830</x>
+        <x>750</x>
         <y>40</y>
-        <width>161</width>
+        <width>111</width>
         <height>28</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
       </property>
       <property name="text">
        <string>Imprimer</string>
@@ -315,6 +387,31 @@
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_12">
+      <property name="geometry">
+       <rect>
+        <x>880</x>
+        <y>40</y>
+        <width>111</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
+      <property name="text">
+       <string>Export PDF</string>
       </property>
      </widget>
     </widget>
@@ -507,6 +604,18 @@
          <height>31</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+       </property>
        <property name="text">
         <string>Ajouter</string>
        </property>
@@ -530,8 +639,20 @@
          <height>31</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+       </property>
        <property name="text">
-        <string>Enregistrer</string>
+        <string>Modifier</string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_quantite">
@@ -595,6 +716,18 @@
          <height>28</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+       </property>
        <property name="text">
         <string>Supprimer</string>
        </property>
@@ -619,6 +752,18 @@
         <height>28</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
       <property name="text">
        <string>Back</string>
       </property>
@@ -631,6 +776,18 @@
         <width>141</width>
         <height>28</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
       </property>
       <property name="text">
        <string>Exporter Pdf</string>
@@ -655,6 +812,18 @@
         <height>28</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
+      </property>
       <property name="text">
        <string>Ref A-Z</string>
       </property>
@@ -667,6 +836,18 @@
         <width>121</width>
         <height>28</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+padding: 5px;
+border-radius: 5px;
+background-color:rgb(101, 190, 155);
+font-weight: bold;
+}
+QPushButton:hover
+{
+color :white;
+}</string>
       </property>
       <property name="text">
        <string>Ref Z-A</string>

@@ -1,5 +1,2 @@
-<RCC>
-    <qresource prefix="/img">
-        <file>img/images123.jpg</file>
-    </qresource>
-</RCC>
+<!DOCTYPE RCC>
+<RCC version="1.0"/>

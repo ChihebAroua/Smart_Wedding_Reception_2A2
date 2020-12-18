@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+class QSystemTrayIcon ;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -50,9 +51,12 @@ private slots:
 
     void on_tableView_2_activated(const QModelIndex &index);
 
+    void on_pushButton_12_clicked();
+
 private:
     Ui::MainWindow *ui;
     fournisseur tempfournisseur;
     commande tempcommande;
+    QSystemTrayIcon *mysystem;
 };
 #endif // MAINWINDOW_H
