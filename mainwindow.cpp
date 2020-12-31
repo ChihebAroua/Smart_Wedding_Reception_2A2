@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "employes.h"
+#include "notification.h"
 #include"taches.h"
 #include <QMessageBox>
 #include <QFileDialog>
@@ -13,6 +14,10 @@
 #include <QPainter>
 #include <QTextStream>
 #include<QIntValidator>
+#include <iostream>
+#include <cstdlib>
+#include <QObject>
+using namespace std;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -20,13 +25,23 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->lineEdit_cin->setValidator(new QIntValidator(0,99999999,this));
     ui->lineEdit_cin_2->setValidator(new QIntValidator(0,99999999,this));
-ui->tableView_employes->setModel(tmp_employes.afficher());
-ui->comboBox_id_modifier->setModel(tmp_employes.afficher_combo());
-ui->tableView_tache->setModel(tmp_taches.afficher());
- ui->comboBox_ide->setModel(tmp_employes.afficher_combo());
-  ui->comboBox_ide2->setModel(tmp_employes.afficher_combo());
- ui->comboBoxidt->setModel(tmp_taches.afficher_combo());
-MainWindow::make_plot();
+    ui->tableView_employes->setModel(tmp_employes.afficher());
+    ui->comboBox_id_modifier->setModel(tmp_employes.afficher_combo());
+    ui->tableView_tache->setModel(tmp_taches.afficher());
+    ui->comboBox_ide->setModel(tmp_employes.afficher_combo());
+    ui->comboBox_ide2->setModel(tmp_employes.afficher_combo());
+    ui->comboBoxidt->setModel(tmp_taches.afficher_combo());
+
+    MainWindow::make_plot();
+int ret=a.connect_arduino();
+switch (ret) {
+case(0):qDebug()<<"arduino is available and connected to: "<<a.getarduino_port_name();
+    break;
+case(1):qDebug()<<"arduino is available but not connected to: "<<a.getarduino_port_name();
+    break;
+case(-1):qDebug()<<"arduino is not available";
+}
+QObject::connect(a.getserial(),SIGNAL(readyRead()),this,SLOT(update_arduino()));
 }
 
 MainWindow::~MainWindow()
@@ -34,6 +49,35 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::update_arduino()
+{   notification n ;
+
+    int c=0;
+QString test;
+    test=a.read_from_arduino();
+
+  qDebug()<<test;
+
+    if(test!="wait")
+{
+
+   QSqlQuery m ;
+    if(m.exec("select * from EMPLOYES where id='"+test+"'"))
+    {
+        while (m.next()){ c++;}
+            if (c==1)
+            {n.notificationC(test,1);
+
+            a.write_to_arduino("1");}
+             else if (c==0)
+            { n.notificationC(test,0);
+
+            a.write_to_arduino("0");};
+
+
+    }}
+
+}
 
 void MainWindow::on_pushButton_ajouter_clicked()
 {
@@ -233,10 +277,14 @@ void MainWindow::on_pushButton_16_clicked()
 
 
 void MainWindow::on_pushButton_chercher_clicked()
-{ QString variable=ui->lineEdit_chercher->text();;
+
+{
+
+    QString variable=ui->lineEdit_chercher->text();
     if(ui->comboBox_recherche->currentText()=="identifient")
     {
      ui->tableView_tache->setModel(tmp_taches.chercher(variable,1));}
+
     else if (ui->comboBox_recherche->currentText()=="nom")
     {
         ui->tableView_tache->setModel(tmp_taches.chercher(variable,2));}

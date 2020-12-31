@@ -3,6 +3,8 @@
 #include <QMainWindow>
 #include"employes.h"
 #include"taches.h"
+#include"arduino.h"
+#include "notification.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -16,6 +18,7 @@ public:
     ~MainWindow();
 
 private slots:
+    void update_arduino();
     void on_pushButton_ajouter_clicked();
 
     void on_pushButton_16_clicked();
@@ -45,6 +48,8 @@ private:
     Ui::MainWindow *ui;
     employes tmp_employes;
     taches tmp_taches;
+   QString data ;
+   arduino a ;
 
 };
 #endif // MAINWINDOW_H

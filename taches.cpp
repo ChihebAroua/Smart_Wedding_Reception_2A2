@@ -74,7 +74,10 @@ taches::taches()
  QSqlQuery query;
 QSqlQueryModel * model1=new QSqlQueryModel();
 if(n==1)
-       {model1->setQuery("select * from taches where ID_tache LIKE '"+variable+"' " );}
+       {model1->setQuery("select * from taches where ID_tache LIKE '"+variable+"' " );
+
+
+}
 else if(n==2)
       { model1->setQuery("select * from taches where nom LIKE '"+variable+"' " );}
 else if(n==3)
@@ -93,6 +96,7 @@ else if(n==5)
      model1->setHeaderData(5,Qt::Horizontal,QObject::tr("date fin"));
      model1->setHeaderData(6,Qt::Horizontal,QObject::tr("état"));
      model1->setHeaderData(7,Qt::Horizontal,QObject::tr("remarque"));
+
 
 
      return model1;

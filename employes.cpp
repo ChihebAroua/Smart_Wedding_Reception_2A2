@@ -19,7 +19,6 @@ employes::employes(QString n,QString p,int c,QString i,QString e,QString d,float
     departement=d;
     salaire=s;
 
-
 }
 bool employes::ajouter()
 { QSqlQuery query;
