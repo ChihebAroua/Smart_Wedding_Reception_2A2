@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "pack.h"
 #include "client.h"
+#include "mail.h"
+#include "excel.h"
 #include <QMessageBox>
 #include <QApplication>
 #include <QApplication>
@@ -16,6 +18,9 @@
 #include <QPainter>
 #include <QPrintDialog>
 #include <QPdfWriter>
+#include<QIntValidator>
+#include<QValidator>
+#include <QFileDialog>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -412,4 +417,65 @@ void MainWindow::on_PDFMc_clicked()
                    painter.drawText(2000,5300,decoration);
                    painter.end();
 
+}
+
+void MainWindow::on_browse_clicked()
+{
+    files.clear();
+
+    QFileDialog dialog(this);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+
+    if (dialog.exec())
+        files = dialog.selectedFiles();
+
+    QString fileListString;
+    foreach(QString file, files)
+        fileListString.append( """ + QFileInfo(file).fileName() + "" " );
+
+    ui->file_2->setText( fileListString );
+}
+
+void MainWindow::on_sendmail_clicked()
+{QString ch;
+
+    ch=ui->rcpt_2->text();
+
+   if(ch.contains("@", Qt::CaseInsensitive)==true)
+    {mail* Mail = new mail ("fourat.halaoua@esprit.tn",ui->mail_pass_2->text(), "smtp.gmail.com");
+      connect(Mail, SIGNAL(status(QString)), this, SLOT(mailSent(QString)));
+
+      if( !files.isEmpty() )
+          Mail->sendMail("fourat.halaoua@esprit.tn", ui->rcpt_2->text() , ui->subject_2->text(),ui->msg_2->text(),files );
+      else
+          Mail->sendMail("fourat.halaoua@esprit.tn", ui->rcpt_2->text() , ui->subject_2->text(),ui->msg_2->text());
+}
+   else
+       QMessageBox::information(nullptr,QObject::tr("mail non envoyé"),
+                                QObject::tr("mail non envoyé. \n"
+                                            "Click Cancel to exist."),QMessageBox::Cancel);
+}
+void MainWindow::on_excelAC_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Excel file"), qApp->applicationDirPath (),
+                                                             tr("Excel Files (*.xls)"));
+             if (fileName.isEmpty())
+                 return;
+
+             ExportExcelObject obj(fileName, "mydata", ui->tableView_2);
+
+             obj.addField(0, "colum1", "char(20)");
+             obj.addField(1, "colum2", "char(20)");
+             obj.addField(2, "colum3", "char(20)");
+             obj.addField(3, "colum4", "char(20)");
+
+             int retVal = obj.export2Excel();
+
+             if( retVal > 0)
+             {
+                 QMessageBox::information(this, tr("Done"),
+                                          QString(tr("%1 records exported!")).arg(retVal)
+                                          );
+             }
 }

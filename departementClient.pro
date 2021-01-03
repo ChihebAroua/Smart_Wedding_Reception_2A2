@@ -1,5 +1,5 @@
 QT       += core gui sql printsupport
-
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
 
@@ -16,6 +16,8 @@ CONFIG += console
 SOURCES += \
     client.cpp \
     connexion.cpp \
+    excel.cpp \
+    mail.cpp \
     main.cpp \
     mainwindow.cpp \
     notification.cpp \
@@ -24,6 +26,8 @@ SOURCES += \
 HEADERS += \
     client.h \
     connexion.h \
+    excel.h \
+    mail.h \
     mainwindow.h \
     notification.h \
     pack.h

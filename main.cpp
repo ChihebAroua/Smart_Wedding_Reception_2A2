@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     else
     {
         QMessageBox::critical(nullptr,QObject::tr("Database is not open"),QObject::tr("Connection failed.\n"
-                                                                                 "\nClick Cancel to exist."),QMessageBox::Cancel);
+                                                                          "\nClick Cancel to exist."),QMessageBox::Cancel);
     }
     return a.exec();
 }
