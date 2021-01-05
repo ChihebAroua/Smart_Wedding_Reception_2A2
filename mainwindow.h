@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "local.h"
 #include "troupe.h"
+#include "stmp.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -57,10 +58,16 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_sendmail_clicked();
+
+    void on_excel_clicked();
+
+    void on_exceltroupe_clicked();
+
 private:
     Ui::MainWindow *ui;
     local tempLocal;
     troupe temptroupe;
-
+  QStringList files;
 };
 #endif // MAINWINDOW_H

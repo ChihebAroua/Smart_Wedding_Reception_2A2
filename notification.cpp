@@ -8,6 +8,7 @@ notification::notification()
 }
 
 
+
 void notification::notificationC()
 {
 
@@ -18,3 +19,4 @@ void notification::notificationC()
     notifyIcon->show();
     notifyIcon->showMessage("bonjour madame hanene","Enjoy! ",QSystemTrayIcon::Information,15000);
 }
+

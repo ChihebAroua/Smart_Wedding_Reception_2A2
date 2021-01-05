@@ -13,19 +13,23 @@ CONFIG += c++11
 
 SOURCES += \
     connection.cpp \
+    excel.cpp \
     local.cpp \
     main.cpp \
     mainwindow.cpp \
     notification.cpp \
     qcustomplot.cpp \
+    stmp.cpp \
     troupe.cpp
 
 HEADERS += \
     connection.h \
+    excel.h \
     local.h \
     mainwindow.h \
     notification.h \
     qcustomplot.h \
+    stmp.h \
     troupe.h
 
 FORMS += \

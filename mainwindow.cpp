@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 #include "local.h"
 #include "troupe.h"
+#include "stmp.h"
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QTextDocument>
@@ -12,6 +13,15 @@
 #include <qcustomplot.h>
 #include <QPainter>
 #include <QTextStream>
+
+#include <QSortFilterProxyModel>
+#include <QTextTableFormat>
+#include <QStandardItemModel>
+
+#include "excel.h"
+
+
+
 
 
 
@@ -527,4 +537,112 @@ void MainWindow::on_tabWidgetlocal_currentChanged(int index) //stat local
 void MainWindow::on_pushButton_4_clicked() // quitter local
 {
     exit(1);
+}
+
+
+
+void MainWindow::on_sendmail_clicked()
+{
+   //QStringList files;
+
+    Smtp* smtp = new Smtp("mohamedyahya.jday@esprit.tn",ui->mail_pass_2->text(), "smtp.gmail.com");
+      connect(smtp, SIGNAL(status(QString)), this, SLOT(mailSent(QString)));
+
+      if( !files.isEmpty() )
+          smtp->sendMail("mohamedyahya.jday@esprit.tn", ui->rcpt_2->text() , ui->subject_2->text(),ui->msg_2->toPlainText(),files );
+      else
+          smtp->sendMail("mohamedyahya.jday@esprit.tn", ui->rcpt_2->text() , ui->subject_2->text(),ui->msg_2->toPlainText());
+
+
+}
+
+/*void   MainWindow::mailsent(QString status)
+{
+
+    if(status == "Message sent")
+        QMessageBox::warning( nullptr, tr( "Qt Simple SMTP client" ), tr( "Message sent!\n\n" ) );
+    ui->rcpt_2->clear();
+    ui->subject_2->clear();
+    ui->file_2->clear();
+    ui->msg_2->clear();
+    ui->mail_pass_2->clear();
+}
+*/
+
+void MainWindow::on_pushButton_5_clicked() // browse mail
+{
+
+
+    files.clear();
+
+    QFileDialog dialog(this);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+
+    if (dialog.exec())
+        files = dialog.selectedFiles();
+
+    QString fileListString;
+    foreach(QString file, files)
+        fileListString.append( """ + QFileInfo(file).fileName() + "" " );
+
+    ui->file_2->setText( fileListString );
+
+}
+
+void MainWindow::on_excel_clicked() // excel local
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Excel file"), qApp->applicationDirPath (),
+                                                               tr("Excel Files (*.xls)"));
+               if (fileName.isEmpty())
+                   return;
+
+               ExportExcelObject obj(fileName, "mydata", ui->tableView_local);
+
+               obj.addField(0, "colum1", "char(20)");
+               obj.addField(1, "colum2", "char(20)");
+               obj.addField(2, "colum3", "char(20)");
+               obj.addField(3, "colum4", "char(20)");
+
+               int retVal = obj.export2Excel();
+
+               if( retVal > 0)
+               {
+                   QMessageBox::information(this, tr("Done"),
+                                            QString(tr("%1 records exported!")).arg(retVal)
+                                            );
+               }
+
+
+
+
+
+}
+
+void MainWindow::on_exceltroupe_clicked() // excel troupe
+{
+
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Excel file"), qApp->applicationDirPath (),
+                                                               tr("Excel Files (*.xls)"));
+               if (fileName.isEmpty())
+                   return;
+
+               ExportExcelObject obj(fileName, "mydata", ui->tableView_troupe);
+
+               obj.addField(0, "colum1", "char(20)");
+               obj.addField(1, "colum2", "char(20)");
+               obj.addField(2, "colum3", "char(20)");
+               obj.addField(3, "colum4", "char(20)");
+
+               int retVal = obj.export2Excel();
+
+               if( retVal > 0)
+               {
+                   QMessageBox::information(this, tr("Done"),
+                                            QString(tr("%1 records exported!")).arg(retVal)
+                                            );
+               }
+
+
+
 }
