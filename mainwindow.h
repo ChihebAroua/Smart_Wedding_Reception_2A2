@@ -5,7 +5,7 @@
 #include "local.h"
 #include "troupe.h"
 #include "stmp.h"
-
+#include <QTranslator>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -64,10 +64,13 @@ private slots:
 
     void on_exceltroupe_clicked();
 
+    void on_pushButton_6_clicked();
+
 private:
     Ui::MainWindow *ui;
     local tempLocal;
     troupe temptroupe;
   QStringList files;
+  QTranslator T;
 };
 #endif // MAINWINDOW_H

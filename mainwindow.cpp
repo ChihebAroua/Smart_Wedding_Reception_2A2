@@ -35,7 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->tableView_local->setModel(tempLocal.afficherlocal());
     ui->tableView_troupe->setModel(temptroupe.affichertroupe());
-
+    ui->comboBox_langue->addItem("French");
+    ui->comboBox_langue->addItem("English");
 
     //controle saisir:
      ui->lineEdit_idl->setValidator(new QRegExpValidator(QRegExp("[0-9]*"),this));
@@ -642,6 +643,46 @@ void MainWindow::on_exceltroupe_clicked() // excel troupe
                                             QString(tr("%1 records exported!")).arg(retVal)
                                             );
                }
+
+
+
+}
+
+void MainWindow::on_pushButton_6_clicked() // confirmer langue
+{
+
+
+    QString lang;
+        lang = ui->comboBox_langue->currentText();
+
+
+        if(lang == "English")
+        {
+            T.load(":/english.qm");
+            qApp->installTranslator(& T);
+            ui->retranslateUi(this);
+            ui->comboBox_langue->setCurrentText("English");
+
+
+        }
+        else if(lang == "German")
+        {
+            T.load(":/german.qm");
+            qApp->installTranslator(&T);
+            ui->retranslateUi(this);
+           ui->comboBox_langue->setCurrentText("German");
+
+
+        }
+        else if(lang == "French")
+        {
+            T.load(":/french.qm");
+            qApp->installTranslator(&T);
+            ui->retranslateUi(this);
+            ui->comboBox_langue->setCurrentText("French");
+
+
+        }
 
 
 

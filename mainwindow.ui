@@ -27,7 +27,7 @@
      <string notr="true">background:rgb(255, 255, 255)</string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -482,6 +482,29 @@ color :white;
        <string>Excel</string>
       </property>
      </widget>
+     <widget class="QComboBox" name="comboBox_langue">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>410</y>
+        <width>131</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_6">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>407</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>confirmer</string>
+      </property>
+     </widget>
      <zorder>label_8</zorder>
      <zorder>label</zorder>
      <zorder>label_2</zorder>
@@ -508,6 +531,8 @@ color :white;
      <zorder>label_21</zorder>
      <zorder>lineEdit_idl</zorder>
      <zorder>excel</zorder>
+     <zorder>comboBox_langue</zorder>
+     <zorder>pushButton_6</zorder>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
