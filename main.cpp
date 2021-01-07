@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     connexion c;
    // notification nf;
     bool test=c.createconnect();
+    a.setStyle("fusion");
      MainWindow w;
     if(test==true)
     {w.show();

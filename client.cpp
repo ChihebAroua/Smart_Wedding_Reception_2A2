@@ -46,74 +46,84 @@ QString Client::get_decoration(){return DecorationC;}
  bool Client::ajouter_client()
  {
      QSqlQuery query,q;
-   QString  localp, commandep,vehiculep,troupep,decorationp;
-     QString avance= QString::number(AvanceC);
-     query.prepare("INSERT INTO client(nom, prenom,cin,pack,DATEM,heure,local, commande, vehicule, decoration, troupe, avance)"
-                   "VALUES (:nom, :prenom,:cin,:pack,:date,:heure,:local, :commande, :vehicule, :decoration, :troupe, :avance)");
 
+     QString avance= QString::number(AvanceC);
+QString O,N;
+O="oui";
+N="non";
+     query.prepare("INSERT INTO clients(nom, prenom,cin,pack,DATEM,heure,local, commande, vehicule, decoration, troupe, avance)"
+                   "VALUES (:nom, :prenom,:cin,:pack,:date,:heure,:local, :commande, :vehicule, :decoration, :troupe, :avance)");
      query.bindValue(":nom",nomC);
      query.bindValue(":prenom",prenomC);
      query.bindValue(":cin",CIN);
      query.bindValue(":pack",packC);
      query.bindValue(":date",dateC);
   query.bindValue(":heure",heureC);
-
-     q.prepare("Select local , commande, vehicule,decoration,troupe from pack where nom LIKE '"+packC+"'");
-     q.bindValue("packch",packC);
-
-localp      = q.value(2).toString();
-commandep   = q.value(3).toString();
-vehiculep   = q.value(4).toString();
-decorationp = q.value(5).toString();
-troupep     = q.value(6).toString();
-//QDebug() << localp << commandep <<vehiculep <<decorationp <<troupep;
-if(localp=="oui")
+ q.bindValue(":pack",packC);
+  if(q.exec("select * from packs where idpack like '"+packC+"'"))
+  {
+  int count=0;
+  while(q.next())
+  {
+      count++;
+  }
+  q.exec("select * from packs where idpack like '"+packC+"'");
+  if(count==1)
+  {if(q.next())
+  {
+   if(q.value(4).toString()=="oui")
      query.bindValue(":local",localC);
-  else if(localp=="non")
+  else if(q.value(4).toString()=="non")
     query.bindValue(":local","NULL");
-if(commandep=="oui")
-     query.bindValue(":commande",commandeC);
- else if(commandep=="non")
-    query.bindValue(":commande","NULL");
-if(vehiculep=="oui")
-query.bindValue(":vehicule",vehiculeC);
-    else if(vehiculep=="non")
-query.bindValue(":vehicule","NULL");
-if(troupep=="oui")
-      query.bindValue(":troupe",troupeC);
-    else if(troupep=="non")
-  query.bindValue(":troupe","NULL");
-if(decorationp=="oui")
-query.bindValue(":decoration",DecorationC);
-     else if(decorationp=="non")
-    query.bindValue(":decoration","NULL");
 
+if(q.value(7).toString()=="oui")
+     query.bindValue(":commande",commandeC);
+ else if(q.value(7).toString()=="non")
+    query.bindValue(":commande","NULL");
+
+if(q.value(6).toString()=="oui")
+query.bindValue(":vehicule",vehiculeC);
+    else if(q.value(6).toString()=="non")
+query.bindValue(":vehicule","NULL");
+
+if(q.value(5).toString()=="oui")
+      query.bindValue(":troupe",troupeC);
+    else if(q.value(5).toString()=="non")
+  query.bindValue(":troupe","NULL");
+
+if(q.value(8).toString()=="oui")
+query.bindValue(":decoration",DecorationC);
+     else if(q.value(8).toString()=="non")
+    query.bindValue(":decoration","NULL");
+}
+  }
+  }
      query.bindValue(":avance",avance);
+
      return query.exec();
  }
  QSqlQueryModel * Client::afficher_client()
  {
   QSqlQueryModel * model=new QSqlQueryModel();
-  model->setQuery("select * from client");
-  model->setHeaderData(0,Qt::Horizontal,QObject::tr("Nom"));
-  model->setHeaderData(1,Qt::Horizontal,QObject::tr("Prénom"));
-  model->setHeaderData(2,Qt::Horizontal,QObject::tr("CIN"));
-  model->setHeaderData(3,Qt::Horizontal,QObject::tr("Pack"));
-  model->setHeaderData(4,Qt::Horizontal,QObject::tr("Date"));
-  model->setHeaderData(5,Qt::Horizontal,QObject::tr("Heure"));
-  model->setHeaderData(6,Qt::Horizontal,QObject::tr("Local"));
-  model->setHeaderData(7,Qt::Horizontal,QObject::tr("Troupe"));
-  model->setHeaderData(8,Qt::Horizontal,QObject::tr("Vehicule"));
+  model->setQuery("select * from clients");
+  model->setHeaderData(0,Qt::Horizontal,QObject::tr("CIN"));
+  model->setHeaderData(1,Qt::Horizontal,QObject::tr("Nom"));
+  model->setHeaderData(2,Qt::Horizontal,QObject::tr("Prénom"));
+  model->setHeaderData(3,Qt::Horizontal,QObject::tr("Date"));
+  model->setHeaderData(4,Qt::Horizontal,QObject::tr("Heure"));
+  model->setHeaderData(5,Qt::Horizontal,QObject::tr("Pack"));
+  model->setHeaderData(6,Qt::Horizontal,QObject::tr("Avance"));
+  model->setHeaderData(7,Qt::Horizontal,QObject::tr("Local"));
+  model->setHeaderData(8,Qt::Horizontal,QObject::tr("Troupe"));
   model->setHeaderData(9,Qt::Horizontal,QObject::tr("Decoration"));
-  model->setHeaderData(10,Qt::Horizontal,QObject::tr("Commande"));
-  model->setHeaderData(11,Qt::Horizontal,QObject::tr("Avance"));
-
+  model->setHeaderData(10,Qt::Horizontal,QObject::tr("Vehicule"));
+  model->setHeaderData(11,Qt::Horizontal,QObject::tr("Commande"));
   return model;
  }
  bool Client::supprimer_client(QString cin)
  {
      QSqlQuery query;
-     query.prepare("Delete from client where cin = :cin");
+     query.prepare("Delete from clients where cin = :cin");
      query.bindValue(":cin",cin);
      return query.exec();
  }
@@ -122,7 +132,7 @@ query.bindValue(":decoration",DecorationC);
      QSqlQuery query;
 
      QString avance= QString::number(AvanceC);
-    query.prepare("UPDATE  client set nom=:nom, prenom=:prenom,pack=:pack,DATEM=:date,heure=:heure,local=:local, commande=:commande, vehicule=:vehicule, decoration=:decoration, troupe=:troupe, avance=:avance WHERE CIN=:cin")  ;
+    query.prepare("UPDATE  clients set nom=:nom, prenom=:prenom,pack=:pack,DATEM=:date,heure=:heure,local=:local, commande=:commande, vehicule=:vehicule, decoration=:decoration, troupe=:troupe, avance=:avance WHERE CIN=:cin")  ;
     query.bindValue(":nom",nomC);
     query.bindValue(":prenom",prenomC);
     query.bindValue(":cin",CIN);
@@ -141,25 +151,25 @@ QSqlQueryModel *Client::tri_client(QString ch)
 {QSqlQueryModel *model=new QSqlQueryModel();
     if(ch=="nom")
     {
-        model->setQuery("select * from client  order by nom" );
+        model->setQuery("select * from clients  order by nom" );
     }
     else if(ch=="prenom")
     {
-        model->setQuery("select * from client  order by prenom" );
+        model->setQuery("select * from clients  order by prenom" );
     }
     else if(ch=="date")
         {
 
-        model->setQuery("select * from client  order by DATEM" );
+        model->setQuery("select * from clients  order by DATEM" );
                }
 
    else if(ch=="pack")
     {
-        model->setQuery("select * from client  order by pack" );
+        model->setQuery("select * from clients  order by pack" );
            }
     else if(ch=="avance")
      {
-         model->setQuery("select * from client  order by avance" );
+         model->setQuery("select * from clients  order by avance" );
             }
         model->setHeaderData(0,Qt::Horizontal,QObject::tr("Nom"));
         model->setHeaderData(1,Qt::Horizontal,QObject::tr("Prénom"));
@@ -180,21 +190,21 @@ QSqlQueryModel *Client::recherche_client(QString ch,QString mot)
     QSqlQueryModel *model=new QSqlQueryModel();
 
     if(ch=="nom")
-            {model->setQuery("select * from client where nom LIKE '"+mot+"'" );}
+            {model->setQuery("select * from clients where nom LIKE '"+mot+"'" );}
     else if(ch=="prenom")
-    {model->setQuery("select * from client where prenom LIKE '"+mot+"'" );}
+    {model->setQuery("select * from clients where prenom LIKE '"+mot+"'" );}
     else if(ch=="CIN")
-    {model->setQuery("select * from client where cin LIKE '"+mot+"'" );}
+    {model->setQuery("select * from clients where cin LIKE '"+mot+"'" );}
     else if(ch=="local")
-    {model->setQuery("select * from client where local LIKE '"+mot+"'" );}
+    {model->setQuery("select * from clients where local LIKE '"+mot+"'" );}
     else if(ch=="troupe")
-    {model->setQuery("select * from client where troupe LIKE '"+mot+"'" );}
+    {model->setQuery("select * from clients where troupe LIKE '"+mot+"'" );}
     else if(ch=="vehicule")
-    {model->setQuery("select * from client where vehicule LIKE '"+mot+"'" );}
+    {model->setQuery("select * from clients where vehicule LIKE '"+mot+"'" );}
     else if(ch=="pack")
-    {model->setQuery("select * from client where pack LIKE '"+mot+"'" );}
+    {model->setQuery("select * from clients where pack LIKE '"+mot+"'" );}
     else if(ch=="")
-    {model->setQuery("select * from client " );}
+    {model->setQuery("select * from clients " );}
 
 
 

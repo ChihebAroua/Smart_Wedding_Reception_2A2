@@ -9,6 +9,7 @@
 #include "fournisseur.h"
 #include "commande.h"
 #include "local.h"
+#include "mail.h"
 #include "troupe.h"
 #include <QMessageBox>
 #include <QApplication>
@@ -24,15 +25,28 @@
 #include <QPdfWriter>
 #include<QIntValidator>
 #include<QValidator>
+#include "excel.h"
+#include "mail.h"
+#include "notification.h"
+#include <QSystemTrayIcon>
+#include <QtDebug>
+#include <QObject>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     ui->tableView->setModel(tmppack.afficher_pack());
        ui->tableView_2->setModel(tmpclient.afficher_client());
        ui->comboBoxP->setModel(tmppack.afficher_pack());
        ui->packM->setModel(tmppack.afficher_pack());
+
+       ui->comboBox_langue->addItem("French");
+       ui->comboBox_langue->addItem("English");
+
+       ui->password->setEchoMode(QLineEdit::Password);
    ui->avance->setValidator(new QRegExpValidator(QRegExp("[0-9]*"),this));
    ui->avanceA_4->setValidator(new QRegExpValidator(QRegExp("[0-9]*"),this));
    ui->CINA_3->setValidator(new QRegExpValidator(QRegExp("[0-9]*"),this));
@@ -69,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->comboBox_ide->setModel(tmp_employes.afficher_combo());
                  ui->comboBox_ide2->setModel(tmp_employes.afficher_combo());
                 ui->comboBoxidt->setModel(tmp_taches.afficher_combo());
-                ui->tableView->setModel(V.afficher());
+                ui->tableView_3->setModel(V.afficher());
                 ui->tableView_e->setModel(e.afficher());
                 QRegExp rx("(|\"|/|\\.,|[A-Z,a-z]){30}");
                     ui->lineEdit_nom->setValidator(new QRegExpValidator(rx, this));
@@ -79,8 +93,8 @@ MainWindow::MainWindow(QWidget *parent)
                     ui->lineEdit_prix->setValidator(new QIntValidator(0,99999999,this));
                     ui->lineEdit_tva->setValidator(new QIntValidator(0,9999,this));
                     ui->lineEdit_totale->setValidator(new QIntValidator(0,999999999,this));
-                    ui->tableView->setModel(tempfournisseur.afficher());
-                    ui->tableView_2->setModel(tempcommande.afficher());
+                    ui->tableView_4->setModel(tempfournisseur.afficher());
+                    ui->tableView_5->setModel(tempcommande.afficher());
                         ui->tableView_local->setModel(tempLocal.afficherlocal());
                        ui->tableView_troupe->setModel(temptroupe.affichertroupe());
 
@@ -108,17 +122,53 @@ void MainWindow::on_login_clicked()
     QString user_name= ui ->username->text() ;
     QString password = ui ->password->text() ;
      Connect EMP(user_name,password);
-  int typePer=false;
+  int typePer;
           typePer=EMP.login_user();
   if(typePer==1)
   {
   ui->stackedWidget->setCurrentIndex(1);
+  QMessageBox::information(nullptr,QObject::tr("App access "),
+                           QObject::tr("Access Confirmed. \n"
+                                       "Click Cancel to exist."),QMessageBox::Cancel);
   }
-  else if(typePer==2)
+  else if(typePer>1)
   {
-      QMessageBox::information(nullptr,QObject::tr("App access "),
-                               QObject::tr("Access Confirmed. \n"
-                                           "Click Cancel to exist."),QMessageBox::Cancel);
+
+      if(typePer==2)
+      {
+          ui->stackedWidget->setCurrentIndex(2);
+          QMessageBox::information(nullptr,QObject::tr("App access "),
+                                   QObject::tr("Access Confirmed. \n"
+                                               "Click Cancel to exist."),QMessageBox::Cancel);
+      }
+      else if(typePer==3)
+      {
+          ui->stackedWidget->setCurrentIndex(3);
+          QMessageBox::information(nullptr,QObject::tr("App access "),
+                                   QObject::tr("Access Confirmed. \n"
+                                               "Click Cancel to exist."),QMessageBox::Cancel);
+      }
+      else if(typePer==4)
+      {
+          ui->stackedWidget->setCurrentIndex(4);
+          QMessageBox::information(nullptr,QObject::tr("App access "),
+                                   QObject::tr("Access Confirmed. \n"
+                                               "Click Cancel to exist."),QMessageBox::Cancel);
+      }
+      else if(typePer==5)
+      {
+          ui->stackedWidget->setCurrentIndex(5);
+          QMessageBox::information(nullptr,QObject::tr("App access "),
+                                   QObject::tr("Access Confirmed. \n"
+                                               "Click Cancel to exist."),QMessageBox::Cancel);
+      }
+      else if(typePer==6)
+      {
+          ui->stackedWidget->setCurrentIndex(6);
+          QMessageBox::information(nullptr,QObject::tr("App access "),
+                                   QObject::tr("Access Confirmed. \n"
+                                               "Click Cancel to exist."),QMessageBox::Cancel);
+      }
   }else if(typePer==0)
   {
       QMessageBox::information(nullptr,QObject::tr("App access"),
@@ -873,13 +923,13 @@ int aff=ui->tableView_e->model()->data(index).toString().toInt();
 return aff;
 }
 
-void MainWindow::on_pushButton_6_clicked()
+/*void MainWindow::on_pushButton_6_clicked()
 {
 
     /*QString k="7777";
     int o=5;
         m_electronique i(o,k,o,o);
-      */
+
 
         m_electronique i(ui->ref_e->text().toInt(),ui->type_e_2->text(),ui->prix_e->text().toInt(),ui->vol->text().toInt());
         bool k=i.modifier(getselectedM_elec());
@@ -897,7 +947,7 @@ void MainWindow::on_pushButton_6_clicked()
 
 
 }
-
+*/
 void MainWindow::on_pushButton_7_clicked()
 {
     bool test=e.supprimerTout();
@@ -1041,7 +1091,7 @@ void MainWindow::on_ajouter_clicked()
    bool test=V.ajouter();
    if(test){
        //refresh
-       ui->tableView->setModel(V.afficher());
+       ui->tableView_3->setModel(V.afficher());
 
 
        ui->marque->setText("");
@@ -1068,7 +1118,7 @@ void MainWindow::on_supprimer_clicked()
     int k=getselectedVehicule();
     bool test=V.supprimer(k);
     if(test){
-      ui->tableView->setModel(V.afficher());
+      ui->tableView_3->setModel(V.afficher());
       QMessageBox::information(nullptr, QObject::tr("tout a ete supprimé avec succés"),
                   QObject::tr("vehicule a ete supprimé avec succés.\n"
                               "Click Cancel to exit."), QMessageBox::Cancel);
@@ -1091,7 +1141,7 @@ void MainWindow::on_pushButton_clicked()
 
          if(reply == QMessageBox::Yes){
      if(test){
-          ui->tableView->setModel(V.afficher());
+          ui->tableView_3->setModel(V.afficher());
          QMessageBox::information(nullptr, QObject::tr("tout a ete supprimé avec succés"),
                      QObject::tr("tout a ete supprimé avec succés.\n"
                                  "Click Cancel to exit."), QMessageBox::Cancel);
@@ -1119,7 +1169,7 @@ void MainWindow::on_PDf_clicked()
 
          QPainter painter(&printer);
          painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
-         ui->tableView->render(&painter );
+         ui->tableView_3->render(&painter );
 
          painter.end();
          QMessageBox::information(this,tr("Exported!"),tr("Equipements list is now availble in pdf format "));
@@ -1137,14 +1187,14 @@ void MainWindow::on_recherche_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    ui->tableView->setModel(V.afficherTriMarque());
+    ui->tableView_3->setModel(V.afficherTriMarque());
 }
 
 void MainWindow::on_pushButton_3_clicked()
 {
     Vehicules c(ui->id_m->text().toInt(),ui->marque_m->text(),ui->type_m->text());
        c.modifier(getselectedVehicule());
-        ui->tableView->setModel(V.afficher());
+        ui->tableView_3->setModel(V.afficher());
         ui->marque_m->setText("");
         ui->type_m->setText("");
 }
@@ -1157,7 +1207,7 @@ void MainWindow::on_depSA_clicked()
 void MainWindow::on_pushButton_Ajouter_clicked()
 {
     QString id_four=ui->lineEdit_id->text();
-        QString nom_four=ui->lineEdit_nom->text();
+        QString nom_four=ui->lineEdit_nom_3->text();
         QString adresse=ui->lineEdit_adresse->text();
         QString num_tel=ui->lineEdit_num->text();
         QString type_produit=ui->lineEdit_type->text();
@@ -1165,7 +1215,7 @@ void MainWindow::on_pushButton_Ajouter_clicked()
         bool test=f.ajouter();
         if(test)
         {
-            ui->tableView->setModel(tempfournisseur.afficher());
+            ui->tableView_4->setModel(tempfournisseur.afficher());
             QMessageBox::information(nullptr,QObject::tr("Ajout"),
                                      QObject::tr("Ajout avec succès.\n""Click Cancel to exit."),QMessageBox::Cancel);
 
@@ -1190,7 +1240,7 @@ void MainWindow::on_modifieFournisseur_clicked()
        bool test=f.modifier(id_four);
        if(test)
        {
-           ui->tableView->setModel(tempfournisseur.afficher());
+           ui->tableView_4->setModel(tempfournisseur.afficher());
            QMessageBox::information(nullptr,QObject::tr("modifier"),
                                     QObject::tr("modifier avec succès.\n""Click Cancel to exit."),QMessageBox::Cancel);
 
@@ -1209,7 +1259,7 @@ void MainWindow::on_pushButton_12_clicked()
       bool test=tempfournisseur.supprimer(id_four);
       if(test){
 
-          ui->tableView->setModel(tempfournisseur.afficher());
+          ui->tableView_4->setModel(tempfournisseur.afficher());
           QMessageBox::information(nullptr,QObject::tr("suppression"),
                                    QObject::tr("suppression avec succès.\n""Click Cancel to exit."),QMessageBox::Cancel);
       }
@@ -1222,7 +1272,7 @@ void MainWindow::on_pushButton_12_clicked()
 void MainWindow::on_pushButton_11_clicked()
 {
     QString id_four =ui->lineEdit_9->text();
-           ui->tableView->setModel(tempfournisseur.recherche(id_four));
+           ui->tableView_4->setModel(tempfournisseur.recherche(id_four));
 }
 
 void MainWindow::on_pushButton_14_clicked()
@@ -1238,17 +1288,19 @@ void MainWindow::on_pushButton_14_clicked()
 
 void MainWindow::on_pushButton_15_clicked()
 {
-    QPdfWriter pdf("C:/Users/Helmi/Documents/Gestion_achats/pdffournisseur.pdf");
-                         QPainter painter(&pdf);
+    QString pdf_name= "liste_des_fournisseurs.pdf";
+        QPdfWriter pdf(pdf_name);
+        QPainter painter(&pdf);
+
                         int i = 4000;
                              painter.setPen(Qt::red);
                              painter.setFont(QFont("Arial", 25));
-                             painter.drawText(950,1100,"Liste Des Fournisseur");
+                             painter.drawText(950,1100,"Liste Des Fournisseurs");
                              painter.setPen(Qt::black);
                              painter.setFont(QFont("Arial", 15));
                             // painter.drawText(1100,2000,afficheDC);
                              painter.drawRect(100,100,7300,2600);
-                             painter.drawPixmap(QRect(7600,70,2000,2600),QPixmap("C:/Users/Helmi/Documents/Gestion_achats/logo.png"));
+                             painter.drawPixmap(QRect(7600,70,2000,2600),QPixmap("C:/Users/User/Desktop/2eme/semestre 1/projet c++Nouveau dossier/project/ROYALGEMS.png"));
                              painter.drawRect(0,3000,9600,500);
                              painter.setFont(QFont("Arial", 9));
                              painter.drawText(200,3300,"id_four");
@@ -1260,7 +1312,7 @@ void MainWindow::on_pushButton_15_clicked()
 
 
                              QSqlQuery query;
-                             query.prepare("select * from fournisseur");
+                             query.prepare("select * from fournisseurs");
                              query.exec();
                              while (query.next())
                              {
@@ -1277,7 +1329,7 @@ void MainWindow::on_pushButton_15_clicked()
 }
 
 void MainWindow::on_pushButton_17_clicked()
-{
+{notification n;
     QString num_cmd=ui->lineEdit_num_cmd->text();
         QString id_four=ui->lineEdit_idfour->text();
         QString ref_produit=ui->lineEdit_ref->text();
@@ -1289,8 +1341,9 @@ void MainWindow::on_pushButton_17_clicked()
         commande c(num_cmd,id_four,ref_produit,quantite,date_cmd,prix_unitaire,TVA,totale);
         bool test=c.ajouter();
         if(test)
-        {
-           ui->tableView_2->setModel(tempcommande.afficher());
+        {n.setPopupText("Un fournisseur a été ajouté");
+            n.show();
+           ui->tableView_5->setModel(tempcommande.afficher());
             QMessageBox::information(nullptr,QObject::tr("Ajout"),
                                      QObject::tr("Ajout avec succès.\n""Click Cancel to exit."),QMessageBox::Cancel);
 
@@ -1317,7 +1370,7 @@ void MainWindow::on_pushButton_18_clicked()
         bool test=c.modifier(num_cmd);
         if(test)
         {
-            ui->tableView_2->setModel(tempcommande.afficher());
+            ui->tableView_5->setModel(tempcommande.afficher());
             QMessageBox::information(nullptr,QObject::tr("modifier"),
                                      QObject::tr("modifier avec succès.\n""Click Cancel to exit."),QMessageBox::Cancel);
 
@@ -1335,7 +1388,7 @@ void MainWindow::on_pushButton_19_clicked()
        bool test=tempcommande.supprimer(num_cmd);
        if(test){
 
-           ui->tableView_2->setModel(tempcommande.afficher());
+           ui->tableView_5->setModel(tempcommande.afficher());
            QMessageBox::information(nullptr,QObject::tr("suppression"),
                                     QObject::tr("suppression avec succès.\n""Click Cancel to exit."),QMessageBox::Cancel);
        }
@@ -1347,18 +1400,20 @@ void MainWindow::on_pushButton_19_clicked()
 
 void MainWindow::on_pushButton_22_clicked()
 {
-    ui->tableView_2->setModel(tempcommande.trier());
+    ui->tableView_5->setModel(tempcommande.trier());
 }
 
 void MainWindow::on_pushButton_23_clicked()
 {
-    ui->tableView_2->setModel(tempcommande.trierdec());
+    ui->tableView_5->setModel(tempcommande.trierdec());
 }
 
 void MainWindow::on_pushButton_21_clicked()
 {
-    QPdfWriter pdf("C:/Users/Helmi/Documents/Gestion_achats/pdfcommande.pdf");
-                         QPainter painter(&pdf);
+    QString pdf_name= "liste_des_commandes.pdf";
+        QPdfWriter pdf(pdf_name);
+        QPainter painter(&pdf);
+
                         int i = 4000;
                              painter.setPen(Qt::red);
                              painter.setFont(QFont("Arial", 25));
@@ -1381,7 +1436,7 @@ void MainWindow::on_pushButton_21_clicked()
 
 
                              QSqlQuery query;
-                             query.prepare("select * from commande");
+                             query.prepare("select * from commandes");
                              query.exec();
                              while (query.next())
                              {
@@ -1401,15 +1456,15 @@ void MainWindow::on_pushButton_21_clicked()
 
 void MainWindow::on_tableView_4_activated(const QModelIndex &index)
 {
-    QString id_four=ui->tableView->model()->data(index).toString();
+    QString id_four=ui->tableView_4->model()->data(index).toString();
               QSqlQuery query;
-              query.prepare("select * from fournisseur where id_four LIKE '"+id_four+"%' or nom_four LIKE '"+id_four+"%' or adresse LIKE '"+id_four+"%' or num_tel LIKE '"+id_four+"%' or type_produit LIKE '"+id_four+"%'");
+              query.prepare("select * from fournisseurs where id_four LIKE '"+id_four+"%' or nom_four LIKE '"+id_four+"%' or adresse LIKE '"+id_four+"%' or num_tel LIKE '"+id_four+"%' or type_produit LIKE '"+id_four+"%'");
               if(query.exec())
               {
                 while(query.next())
                 {
                     ui->lineEdit_id->setText(query.value(0).toString());
-                    ui->lineEdit_nom->setText(query.value(1).toString());
+                    ui->lineEdit_nom_3->setText(query.value(1).toString());
                     ui->lineEdit_adresse->setText(query.value(2).toString());
                      ui->lineEdit_num->setText(query.value(3).toString());
                      ui->lineEdit_type->setText(query.value(4).toString());
@@ -1426,9 +1481,9 @@ void MainWindow::on_tableView_4_activated(const QModelIndex &index)
 
 void MainWindow::on_tableView_5_activated(const QModelIndex &index)
 {
-    QString num_cmd=ui->tableView_2->model()->data(index).toString();
+    QString num_cmd=ui->tableView_5->model()->data(index).toString();
               QSqlQuery query;
-              query.prepare("select * from commande where num_cmd LIKE '"+num_cmd+"%' or id_four LIKE '"+num_cmd+"%' or ref_produit LIKE '"+num_cmd+"%' or quantite LIKE '"+num_cmd+"%' or date_cmd LIKE '"+num_cmd+"%' or prix_unitaire LIKE '"+num_cmd+"%' or TVA LIKE '"+num_cmd+"%' or totale LIKE '"+num_cmd+"%'");
+              query.prepare("select * from commandes where num_cmd LIKE '"+num_cmd+"%' or id_four LIKE '"+num_cmd+"%' or ref_produit LIKE '"+num_cmd+"%' or quantite LIKE '"+num_cmd+"%' or date_cmd LIKE '"+num_cmd+"%' or prix_unitaire LIKE '"+num_cmd+"%' or TVA LIKE '"+num_cmd+"%' or totale LIKE '"+num_cmd+"%'");
               if(query.exec())
               {
                 while(query.next())
@@ -1437,7 +1492,7 @@ void MainWindow::on_tableView_5_activated(const QModelIndex &index)
                     ui->lineEdit_idfour->setText(query.value(1).toString());
                     ui->lineEdit_ref->setText(query.value(2).toString());
                     ui->lineEdit_quantite->setText(query.value(3).toString());
-                    //ui->dateEdit->setDate(QDate.value(4).toString());
+                    ui->dateEdit->setDate(query.value(4).toDate());
                     ui->lineEdit_prix->setText(query.value(5).toString());
                     ui->lineEdit_tva->setText(query.value(6).toString());
                     ui->lineEdit_totale->setText(query.value(7).toString());
@@ -1460,12 +1515,12 @@ void MainWindow::on_depCG_clicked()
 
 void MainWindow::on_pushButton_24_clicked()
 {
-    QString nom=ui->lineEdit_nom->text();
-      QString adresse=ui->lineEdit_adresse->text();
+    QString nom=ui->lineEdit_nom_4->text();
+      QString adresse=ui->lineEdit_adresse_2->text();
       QString disponibilite=ui->lineEdit_disponibilite->text();
       int capacite=ui->lineEdit_capacite->text().toInt();
       int idl=ui->lineEdit_idl->text().toInt();
-      float prix=ui->lineEdit_prix->text().toFloat();
+      float prix=ui->lineEdit_prix_2->text().toFloat();
       local l(nom,adresse,disponibilite,prix,capacite,idl);
       bool test ;
       test=l.ajouterlocal();
@@ -1485,12 +1540,12 @@ void MainWindow::on_pushButton_24_clicked()
 
 void MainWindow::on_modifierlocal_clicked()
 {
-    QString nom=ui->lineEdit_nom->text();
-       QString adresse=ui->lineEdit_adresse->text();
+       QString nom=ui->lineEdit_nom_4->text();
+       QString adresse=ui->lineEdit_adresse_2->text();
        QString disponibilite=ui->lineEdit_disponibilite->text();
        int capacite=ui->lineEdit_capacite->text().toInt();
        int idl=ui->lineEdit_idl->text().toInt();
-       float prix=ui->lineEdit_prix->text().toFloat();
+       float prix=ui->lineEdit_prix_2->text().toFloat();
        local l(nom,adresse,disponibilite,prix,capacite,idl);
        bool test ;
        test=l.modifierlocal();
@@ -1552,7 +1607,7 @@ void MainWindow::on_exportpdflocal_clicked()
 
         QTextDocument doc;
         QSqlQuery q;
-        q.prepare("SELECT * FROM LOCAL");
+        q.prepare("SELECT * FROM LOCAUX");
         q.exec();
         QString pdf="<br> <h1  style='color:red'>LOCAL<br></h1>\n <br> <table>  <tr>  <th>NOM</th> <th>Localisation</th> <th> Disponibilité</th> <th>PRIX</th> <th>capacité</th> <th>identifiant</th>   </tr>" ;
 
@@ -1586,7 +1641,7 @@ void MainWindow::on_imprimerlocal_clicked()
 void MainWindow::on_ajoutertroupe_clicked()
 {
     QString nomt=ui->lineEdit_nomt->text();
-        QString type=ui->lineEdit_type->text();
+        QString type=ui->lineEdit_type_2->text();
         QString disponibilitet=ui->lineEdit_disponibilitet->text();
         int duree=ui->lineEdit_duree->text().toInt();
         int idt=ui->lineEdit_idt->text().toInt();
@@ -1610,8 +1665,8 @@ void MainWindow::on_ajoutertroupe_clicked()
 
 void MainWindow::on_modifiertroupe_clicked()
 {
-    QString nomt=ui->lineEdit_nomt->text();
-        QString type=ui->lineEdit_type->text();
+        QString nomt=ui->lineEdit_nomt->text();
+        QString type=ui->lineEdit_type_2->text();
         QString disponibilitet=ui->lineEdit_disponibilitet->text();
         int duree=ui->lineEdit_duree->text().toInt();
         int idt=ui->lineEdit_idt->text().toInt();
@@ -1676,7 +1731,7 @@ void MainWindow::on_exportpdf_clicked()
 
            QTextDocument doc;
            QSqlQuery q;
-           q.prepare("SELECT * FROM TROUPE");
+           q.prepare("SELECT * FROM TROUPES");
            q.exec();
            QString pdf="<br> <h1  style='color:red'>TROUPE<br></h1>\n <br> <table>  <tr>  <th>IDENTIFIANT</th> <th>NOM</th> <th> Disponibilité </th> <th> TYPE</th> <th>PRIX</th> <th>Duree</th>    </tr>" ;
 
@@ -1705,4 +1760,410 @@ void MainWindow::on_imprimertroupe_clicked()
           d.addEnabledOption(QAbstractPrintDialog::PrintSelection);
           if (d.exec() != QDialog::Accepted)
               return ;
+}
+
+void MainWindow::on_Back_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+
+}
+
+void MainWindow::on_sendmail_clicked() //sendmail fourat
+{
+    mail* Mail = new mail ("fourat.halaoua@esprit.tn",ui->mail_pass_2->text(), "smtp.gmail.com");
+      connect(Mail, SIGNAL(status(QString)), this, SLOT(mailSent(QString)));
+
+      if( !files.isEmpty() )
+          Mail->sendMail("fourat.halaoua@esprit.tn", ui->rcpt_2->text() , ui->subject_2->text(),ui->msg_2->text(),files );
+      else
+          Mail->sendMail("fourat.halaoua@esprit.tn", ui->rcpt_2->text() , ui->subject_2->text(),ui->msg_2->text());
+}
+
+void MainWindow::on_browse_clicked() // browse fourat
+{
+    files.clear();
+
+    QFileDialog dialog(this);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+
+    if (dialog.exec())
+        files = dialog.selectedFiles();
+
+    QString fileListString;
+    foreach(QString file, files)
+        fileListString.append( """ + QFileInfo(file).fileName() + "" " );
+
+    ui->file_2->setText( fileListString );
+
+}
+
+
+
+void MainWindow::on_excellocal_clicked() //excellocal
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Excel file"), qApp->applicationDirPath (),
+                                                                tr("Excel Files (*.xls)"));
+                if (fileName.isEmpty())
+                    return;
+
+                ExportExcelObject obj(fileName, "mydata", ui->tableView_local);
+
+                obj.addField(0, "Adresse", "char(20)");
+                obj.addField(1, "Nom", "char(20)");
+                obj.addField(2, "disponibilite", "char(20)");
+                obj.addField(3, "prix", "char(20)");
+                obj.addField(4, "capacite", "char(20)");
+                obj.addField(5, "identifiant", "char(20)");
+
+                int retVal = obj.export2Excel();
+
+                if( retVal > 0)
+                {
+                    QMessageBox::information(this, tr("Done"),
+                                             QString(tr("%1 records exported!")).arg(retVal)
+                                             );
+                }
+
+
+}
+
+void MainWindow::on_exceltroupe_clicked() //excel troupe
+{
+
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Excel file"), qApp->applicationDirPath (),
+                                                                tr("Excel Files (*.xls)"));
+                if (fileName.isEmpty())
+                    return;
+
+                ExportExcelObject obj(fileName, "mydata", ui->tableView_troupe);
+
+                obj.addField(0, "identifiant", "char(20)");
+                obj.addField(1, "Nom", "char(20)");
+                obj.addField(2, "type", "char(20)");
+                obj.addField(3, "disponibilite", "char(20)");
+                obj.addField(4, "prix", "char(20)");
+                obj.addField(5, "duree", "char(20)");
+
+                int retVal = obj.export2Excel();
+
+                if( retVal > 0)
+                {
+                    QMessageBox::information(this, tr("Done"),
+                                             QString(tr("%1 records exported!")).arg(retVal)
+                                             );
+                }
+
+
+}
+
+
+
+
+void MainWindow::on_sendmail_3_clicked() // envoie mail yahya
+{
+
+    mail* Mail = new mail ("mohamedyahya.jday@esprit.tn",ui->mail_pass_4->text(), "smtp.gmail.com");
+      connect(Mail, SIGNAL(status(QString)), this, SLOT(mailSent(QString)));
+
+      if( !files.isEmpty() )
+          Mail->sendMail("mohamedyahya.jday@esprit.tn", ui->rcpt_4->text() , ui->subject_4->text(),ui->msg_4->text(),files );
+      else
+          Mail->sendMail("mohamedyahya.jday@esprit.tn", ui->rcpt_4->text() , ui->subject_4->text(),ui->msg_4->text());
+
+
+
+}
+
+
+
+
+
+
+void MainWindow::on_browse_3_clicked() // browse yahya
+{
+
+    files.clear();
+
+    QFileDialog dialog(this);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+
+    if (dialog.exec())
+        files = dialog.selectedFiles();
+
+    QString fileListString;
+    foreach(QString file, files)
+        fileListString.append( """ + QFileInfo(file).fileName() + "" " );
+
+    ui->file_4->setText( fileListString );
+
+
+}
+
+
+void MainWindow::on_tabWidgetlocal_currentChanged(int index) // stat local
+{
+    // set dark background gradient:
+                 QLinearGradient gradient(0, 0, 0, 400);
+                 gradient.setColorAt(0, QColor(90, 90, 90));
+                 gradient.setColorAt(0.38, QColor(105, 105, 105));
+                 gradient.setColorAt(1, QColor(70, 70, 70));
+                 ui->plott->setBackground(QBrush(gradient));
+
+
+                 // create empty bar chart objects:
+                 QCPBars *amande = new QCPBars(ui->plott->xAxis, ui->plott->yAxis);
+                 amande->setAntialiased(false);
+                 amande->setStackingGap(1);
+                  //set names and colors:
+                 amande->setName("Repartition des prix selon leurs identifiants ");
+                 amande->setPen(QPen(QColor(0, 168, 140).lighter(130)));
+                 amande->setBrush(QColor(0, 168, 140));
+                 // stack bars on top of each other:
+
+
+                 // prepare x axis with country labels:
+                 QVector<double> ticks;
+                 QVector<QString> labels;
+                 tempLocal.statistique(&ticks,&labels);
+
+
+                 QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
+                 textTicker->addTicks(ticks, labels);
+                 ui->plott->xAxis->setTicker(textTicker);
+                 ui->plott->xAxis->setTickLabelRotation(60);
+                 ui->plott->xAxis->setSubTicks(false);
+                 ui->plott->xAxis->setTickLength(0, 4);
+                 ui->plott->xAxis->setRange(0, 8);
+                 ui->plott->xAxis->setBasePen(QPen(Qt::white));
+                 ui->plott->xAxis->setTickPen(QPen(Qt::white));
+                 ui->plott->xAxis->grid()->setVisible(true);
+                 ui->plott->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+                 ui->plott->xAxis->setTickLabelColor(Qt::white);
+                 ui->plott->xAxis->setLabelColor(Qt::white);
+
+                 // prepare y axis:
+                 ui->plott->yAxis->setRange(0,10);
+                 ui->plott->yAxis->setPadding(5); // a bit more space to the left border
+                 ui->plott->yAxis->setLabel("Statistiques");
+                 ui->plott->yAxis->setBasePen(QPen(Qt::white));
+                 ui->plott->yAxis->setTickPen(QPen(Qt::white));
+                 ui->plott->yAxis->setSubTickPen(QPen(Qt::white));
+                 ui->plott->yAxis->grid()->setSubGridVisible(true);
+                 ui->plott->yAxis->setTickLabelColor(Qt::white);
+                 ui->plott->yAxis->setLabelColor(Qt::white);
+                 ui->plott->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
+                 ui->plott->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+
+                 // Add data:
+
+                 QVector<double> PlaceData;
+                 QSqlQuery q1("select prix from LOCAUX");
+                 while (q1.next()) {
+                               int  nbr_fautee = q1.value(0).toInt();
+                               PlaceData<< nbr_fautee;
+                                 }
+                 amande->setData(ticks, PlaceData);
+                 // setup legend:
+                 ui->plott->legend->setVisible(true);
+                 ui->plott->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignHCenter);
+                 ui->plott->legend->setBrush(QColor(255, 255, 255, 100));
+                 ui->plott->legend->setBorderPen(Qt::NoPen);
+                 QFont legendFont = font();
+                 legendFont.setPointSize(10);
+                 ui->plott->legend->setFont(legendFont);
+                 ui->plott->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+
+}
+
+void MainWindow::on_confirmerlangue_clicked()
+{
+
+    QString lang;
+        lang = ui->comboBox_langue->currentText();
+
+
+        if(lang == "English")
+        {
+            T.load(":/english.qm");
+            qApp->installTranslator(& T);
+            ui->retranslateUi(this);
+            ui->comboBox_langue->setCurrentText("English");
+
+
+        }
+        else if(lang == "German")
+        {
+            T.load(":/german.qm");
+            qApp->installTranslator(&T);
+            ui->retranslateUi(this);
+           ui->comboBox_langue->setCurrentText("German");
+
+
+        }
+        else if(lang == "French")
+        {
+            T.load(":/french.qm");
+            qApp->installTranslator(&T);
+            ui->retranslateUi(this);
+            ui->comboBox_langue->setCurrentText("French");
+
+
+        }
+
+
+}
+
+void MainWindow::on_statistiqueRH_currentChanged(int index) // statistique resource humaine
+{
+    // set dark background gradient:
+                 QLinearGradient gradient(0, 0, 0, 400);
+                 gradient.setColorAt(0, QColor(90, 90, 90));
+                 gradient.setColorAt(0.38, QColor(105, 105, 105));
+                 gradient.setColorAt(1, QColor(70, 70, 70));
+                 ui->plot->setBackground(QBrush(gradient));
+
+
+                 // create empty bar chart objects:
+                 QCPBars *amande = new QCPBars(ui->plot->xAxis, ui->plot->yAxis);
+                 amande->setAntialiased(false);
+                 amande->setStackingGap(1);
+                  //set names and colors:
+                 amande->setName("Repartition des prix selon leurs identifiants ");
+                 amande->setPen(QPen(QColor(0, 168, 140).lighter(130)));
+                 amande->setBrush(QColor(0, 168, 140));
+                 // stack bars on top of each other:
+
+
+                 // prepare x axis with country labels:
+                 QVector<double> ticks;
+                 QVector<QString> labels;
+                 tmp_employes.statistique(&ticks,&labels);
+
+
+                 QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
+                 textTicker->addTicks(ticks, labels);
+                 ui->plot->xAxis->setTicker(textTicker);
+                 ui->plot->xAxis->setTickLabelRotation(60);
+                 ui->plot->xAxis->setSubTicks(false);
+                 ui->plot->xAxis->setTickLength(0, 4);
+                 ui->plot->xAxis->setRange(0, 8);
+                 ui->plot->xAxis->setBasePen(QPen(Qt::white));
+                 ui->plot->xAxis->setTickPen(QPen(Qt::white));
+                 ui->plot->xAxis->grid()->setVisible(true);
+                 ui->plot->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+                 ui->plot->xAxis->setTickLabelColor(Qt::white);
+                 ui->plot->xAxis->setLabelColor(Qt::white);
+
+                 // prepare y axis:
+                 ui->plot->yAxis->setRange(0,10);
+                 ui->plot->yAxis->setPadding(5); // a bit more space to the left border
+                 ui->plot->yAxis->setLabel("Statistiques");
+                 ui->plot->yAxis->setBasePen(QPen(Qt::white));
+                 ui->plot->yAxis->setTickPen(QPen(Qt::white));
+                 ui->plot->yAxis->setSubTickPen(QPen(Qt::white));
+                 ui->plot->yAxis->grid()->setSubGridVisible(true);
+                 ui->plot->yAxis->setTickLabelColor(Qt::white);
+                 ui->plot->yAxis->setLabelColor(Qt::white);
+                 ui->plot->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
+                 ui->plot->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+
+                 // Add data:
+
+                 QVector<double> PlaceData;
+                 QSqlQuery q1("select salaire from employes");
+                 while (q1.next()) {
+                               int  nbr_fautee = q1.value(0).toInt();
+                               PlaceData<< nbr_fautee;
+                                 }
+                 amande->setData(ticks, PlaceData);
+                 // setup legend:
+                 ui->plot->legend->setVisible(true);
+                 ui->plot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignHCenter);
+                 ui->plot->legend->setBrush(QColor(255, 255, 255, 100));
+                 ui->plot->legend->setBorderPen(Qt::NoPen);
+                 QFont legendFont = font();
+                 legendFont.setPointSize(10);
+                 ui->plot->legend->setFont(legendFont);
+                 ui->plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+
+
+
+}
+
+void MainWindow::on_tabWidget_6_currentChanged(int index) // statistique chiheb
+{
+    // set dark background gradient:
+                 QLinearGradient gradient(0, 0, 0, 400);
+                 gradient.setColorAt(0, QColor(90, 90, 90));
+                 gradient.setColorAt(0.38, QColor(105, 105, 105));
+                 gradient.setColorAt(1, QColor(70, 70, 70));
+                 ui->plot_4->setBackground(QBrush(gradient));
+
+
+                 // create empty bar chart objects:
+                 QCPBars *amande = new QCPBars(ui->plot_4->xAxis, ui->plot_4->yAxis);
+                 amande->setAntialiased(false);
+                 amande->setStackingGap(1);
+                  //set names and colors:
+                 amande->setName("Repartition des matérieux electro selon leurs ID ");
+                 amande->setPen(QPen(QColor(0, 168, 140).lighter(130)));
+                 amande->setBrush(QColor(0, 168, 140));
+                 // stack bars on top of each other:
+
+
+                 // prepare x axis with country labels:
+                 QVector<double> ticks;
+                 QVector<QString> labels;
+                 e.statistique(&ticks,&labels);
+
+
+
+                 QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
+                 textTicker->addTicks(ticks, labels);
+                 ui->plot_4->xAxis->setTicker(textTicker);
+                 ui->plot_4->xAxis->setTickLabelRotation(60);
+                 ui->plot_4->xAxis->setSubTicks(false);
+                 ui->plot_4->xAxis->setTickLength(0, 4);
+                 ui->plot_4->xAxis->setRange(0, 8);
+                 ui->plot_4->xAxis->setBasePen(QPen(Qt::white));
+                 ui->plot_4->xAxis->setTickPen(QPen(Qt::white));
+                 ui->plot_4->xAxis->grid()->setVisible(true);
+                 ui->plot_4->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+                 ui->plot_4->xAxis->setTickLabelColor(Qt::white);
+                 ui->plot_4->xAxis->setLabelColor(Qt::white);
+
+                 // prepare y axis:
+                 ui->plot_4->yAxis->setRange(0,10);
+                 ui->plot_4->yAxis->setPadding(5); // a bit more space to the left border
+                 ui->plot_4->yAxis->setLabel("Statistiques");
+                 ui->plot_4->yAxis->setBasePen(QPen(Qt::white));
+                 ui->plot_4->yAxis->setTickPen(QPen(Qt::white));
+                 ui->plot_4->yAxis->setSubTickPen(QPen(Qt::white));
+                 ui->plot_4->yAxis->grid()->setSubGridVisible(true);
+                 ui->plot_4->yAxis->setTickLabelColor(Qt::white);
+                 ui->plot_4->yAxis->setLabelColor(Qt::white);
+                 ui->plot_4->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
+                 ui->plot_4->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+
+                 // Add data:
+
+                 QVector<double> PlaceData;
+                 QSqlQuery q1("select prix from m_electronique");
+                 while (q1.next()) {
+                               int  nbr_fautee = q1.value(0).toInt();
+                               PlaceData<< nbr_fautee;
+                                 }
+                 amande->setData(ticks, PlaceData);
+                 // setup legend:
+                 ui->plot_4->legend->setVisible(true);
+                 ui->plot_4->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignHCenter);
+                 ui->plot_4->legend->setBrush(QColor(255, 255, 255, 100));
+                 ui->plot_4->legend->setBorderPen(Qt::NoPen);
+                 QFont legendFont = font();
+                 legendFont.setPointSize(10);
+                 ui->plot_4->legend->setFont(legendFont);
+                 ui->plot_4->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+
 }

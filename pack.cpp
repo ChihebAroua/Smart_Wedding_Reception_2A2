@@ -41,18 +41,12 @@ bool pack::ajouter_pack()
   QSqlQuery query;
   QString red= QString::number(reduction);
   QString prix= QString::number(prixP);
-  query.prepare("INSERT INTO pack(nom, idpack, local, commande, vehicule, decoration, troupe, reduction, prix)"
+  query.prepare("INSERT INTO packs(nom, idpack, local, commande, vehicule, decoration, troupe, reduction, prix)"
                 "VALUES (:nomP, :idpack, :local, :commande, :vehicule, :decoration, :troupe, :reduction, :prixP)");
   query.bindValue(":nomP",nomP);
   query.bindValue(":idpack",idpack);
-
   query.bindValue(":local",local);
-
-
-
-
   query.bindValue(":commande",commande);
-
 query.bindValue(":vehicule",vehicule);
  query.bindValue(":troupe",troupe);
  query.bindValue(":decoration",decoration);
@@ -65,23 +59,24 @@ query.bindValue(":vehicule",vehicule);
 QSqlQueryModel * pack::afficher_pack()
 {
  QSqlQueryModel * model=new QSqlQueryModel();
- model->setQuery("select * from pack");
- model->setHeaderData(0,Qt::Horizontal,QObject::tr("Nom"));
- model->setHeaderData(1,Qt::Horizontal,QObject::tr("Id_pack"));
- model->setHeaderData(2,Qt::Horizontal,QObject::tr("Local"));
- model->setHeaderData(3,Qt::Horizontal,QObject::tr("Commande"));
- model->setHeaderData(4,Qt::Horizontal,QObject::tr("Vehicule"));
- model->setHeaderData(5,Qt::Horizontal,QObject::tr("Decoration"));
- model->setHeaderData(6,Qt::Horizontal,QObject::tr("Troupe"));
- model->setHeaderData(7,Qt::Horizontal,QObject::tr("Reduction"));
- model->setHeaderData(8,Qt::Horizontal,QObject::tr("Prix"));
+ model->setQuery("select * from packs");
+ model->setHeaderData(0,Qt::Horizontal,QObject::tr("Id_pack"));
+ model->setHeaderData(1,Qt::Horizontal,QObject::tr("Nom"));
+ model->setHeaderData(2,Qt::Horizontal,QObject::tr("Prix"));
+ model->setHeaderData(3,Qt::Horizontal,QObject::tr("Reduction"));
+ model->setHeaderData(4,Qt::Horizontal,QObject::tr("Local"));
+ model->setHeaderData(5,Qt::Horizontal,QObject::tr("Commande"));
+ model->setHeaderData(6,Qt::Horizontal,QObject::tr("Vehicule"));
+ model->setHeaderData(7,Qt::Horizontal,QObject::tr("Decoration"));
+ model->setHeaderData(8,Qt::Horizontal,QObject::tr("Troupe"));
+
  return model;
 }
 
 bool pack::supprimer_pack(QString id)
 {
     QSqlQuery query;
-    query.prepare("Delete from pack where idpack = :id");
+    query.prepare("Delete from packs where idpack = :id");
     query.bindValue(":id",id);
     return query.exec();
 }
@@ -92,7 +87,7 @@ bool pack::modifier_pack()
     QString red= QString::number(reduction);
     QString prix= QString::number(prixP);
 
-   query.prepare("UPDATE  PACK set nom=:nomP,local=:local,commande=:commande,troupe=:troupe,vehicule=:vehicule,decoration=:decoration,reduction=:reduction,prix=:prixP WHERE idpack=:idpack")  ;
+   query.prepare("UPDATE  PACKs set nom=:nomP,local=:local,commande=:commande,troupe=:troupe,vehicule=:vehicule,decoration=:decoration,reduction=:reduction,prix=:prixP WHERE idpack=:idpack")  ;
    query.bindValue(":nomP",nomP);
    query.bindValue(":idpack",idpack);
    query.bindValue(":local",local);
@@ -110,20 +105,20 @@ QSqlQueryModel * pack::tri_pack(QString ch)
     QSqlQueryModel *model=new QSqlQueryModel();
         if(ch=="nom")
         {
-            model->setQuery("select * from pack  order by nom" );
+            model->setQuery("select * from packs  order by nom" );
         }
         else if(ch=="id_pack")
         {
-            model->setQuery("select * from pack  order by idpack" );
+            model->setQuery("select * from packs  order by idpack" );
         }
 
        /* else if(ch=="prix")
         {
-            model->setQuery("select * from pack  order by prix" );
+            model->setQuery("select * from packs  order by prix" );
                 }*/
        else if(ch=="reduction")
         {
-            model->setQuery("select * from pack  order by reduction" );
+            model->setQuery("select * from packs  order by reduction" );
                }
 
         model->setHeaderData(0,Qt::Horizontal,QObject::tr("Nom"));
@@ -142,13 +137,13 @@ QSqlQueryModel *pack::recherche_pack(QString ch,QString mot)
     QSqlQueryModel *model=new QSqlQueryModel();
 
     if(ch=="nom")
-            {model->setQuery("select * from pack where nom LIKE '"+mot+"'" );}
+            {model->setQuery("select * from packs where nom LIKE '"+mot+"'" );}
     else if(ch=="id_pack")
-    {model->setQuery("select * from pack where idpack LIKE '"+mot+"'" );}
+    {model->setQuery("select * from packs where idpack LIKE '"+mot+"'" );}
     else if(ch=="prix")
-    {model->setQuery("select * from pack where prix LIKE '"+mot+"'" );}
+    {model->setQuery("select * from packs where prix LIKE '"+mot+"'" );}
     else if(ch=="")
-    {model->setQuery("select * from pack " );}
+    {model->setQuery("select * from packs " );}
 
 
 

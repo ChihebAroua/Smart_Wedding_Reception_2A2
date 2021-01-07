@@ -1,6 +1,6 @@
 QT       += core gui sql printsupport
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core gui network
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets multimedia
 TEMPLATE = app
 
 CONFIG += console
@@ -16,11 +16,14 @@ SOURCES += \
     connect.cpp \
     connexion.cpp \
     employes.cpp \
+    excel.cpp \
     fournisseur.cpp \
     local.cpp \
     m_electronique.cpp \
+    mail.cpp \
     main.cpp \
     mainwindow.cpp \
+    notification.cpp \
     pack.cpp \
     qcustomplot.cpp \
     taches.cpp \
@@ -33,10 +36,13 @@ HEADERS += \
     connect.h \
     connexion.h \
     employes.h \
+    excel.h \
     fournisseur.h \
     local.h \
     m_electronique.h \
+    mail.h \
     mainwindow.h \
+    notification.h \
     pack.h \
     qcustomplot.h \
     taches.h \
@@ -50,3 +56,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    Traduction.qrc

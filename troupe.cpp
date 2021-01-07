@@ -27,7 +27,7 @@ bool troupe::ajoutertroupe()
     QString prixt1=QString::number(prixt);
     QString duree1=QString::number(duree);
     QString idt1=QString::number(idt);
-    query.prepare("INSERT INTO troupe(IDT,NOMT,DISPONIBILITET,TYPE,PRIXT,DUREE) ""VALUES(:idt,:nomt,:disponibilitet,:type,:prixt,:duree)");
+    query.prepare("INSERT INTO troupes(IDT,NOMT,DISPONIBILITET,TYPE,PRIXT,DUREE) ""VALUES(:idt,:nomt,:disponibilitet,:type,:prixt,:duree)");
     query.bindValue(":nomt",nomt);
     query.bindValue(":type",type);
     query.bindValue(":disponibilitet",disponibilitet);
@@ -43,7 +43,7 @@ bool troupe::ajoutertroupe()
 QSqlQueryModel *troupe::affichertroupe()
 {
     QSqlQueryModel * model=new QSqlQueryModel();
-    model->setQuery("select * from troupe");
+    model->setQuery("select * from troupes");
     model->setHeaderData(0,Qt::Horizontal,QObject::tr("ID"));
     model->setHeaderData(1,Qt::Horizontal,QObject::tr("NOM"));
     model->setHeaderData(2,Qt::Horizontal,QObject::tr("dispo"));
@@ -61,7 +61,7 @@ QSqlQueryModel *troupe::affichertroupe()
 
     QSqlQuery query;
      QString idt1=QString::number(ide);
-    query.prepare("Delete from troupe where IDT=:idt ");
+    query.prepare("Delete from troupes where IDT=:idt ");
     query.bindValue(":idt",idt1);
     return query.exec();
 
@@ -76,7 +76,7 @@ QSqlQueryModel *troupe::affichertroupe()
      QString prixt1=QString::number(prixt);
      QString duree1=QString::number(duree);
      QString idt1=QString::number(idt);
-     query.prepare("UPDATE troupe set nomt=:nomt,disponibilitet=:disponibilitet,type=:type,prixt=:prixt,duree=:duree where idt=:idt");
+     query.prepare("UPDATE troupes set nomt=:nomt,disponibilitet=:disponibilitet,type=:type,prixt=:prixt,duree=:duree where idt=:idt");
      query.bindValue(":nomt",nomt);
      query.bindValue(":type",type);
      query.bindValue(":disponibilitet",disponibilitet);
@@ -96,7 +96,7 @@ QSqlQueryModel *troupe::affichertroupe()
  QString idt=QString::number(ide);
 
 
-     model1->setQuery("select * from TROUPE where idt LIKE '"+idt+"'" );
+     model1->setQuery("select * from TROUPES where idt LIKE '"+idt+"'" );
      model1->setHeaderData(0,Qt::Horizontal,QObject::tr("ID"));
      model1->setHeaderData(1,Qt::Horizontal,QObject::tr("NOM"));
      model1->setHeaderData(2,Qt::Horizontal,QObject::tr("dispo"));
@@ -114,7 +114,7 @@ QSqlQueryModel *troupe::affichertroupe()
  {
      QSqlQueryModel * model=new QSqlQueryModel();
      QString id1=QString::number(idt);
-     model->setQuery("select * from troupe  order by idt" );
+     model->setQuery("select * from troupes  order by idt" );
      model->setHeaderData(0,Qt::Horizontal,QObject::tr("ID"));
      model->setHeaderData(1,Qt::Horizontal,QObject::tr("NOM"));
      model->setHeaderData(2,Qt::Horizontal,QObject::tr("dispo"));
@@ -127,7 +127,7 @@ QSqlQueryModel *troupe::affichertroupe()
  void troupe::statistique1(QVector<double>* ticks,QVector<QString> *labels)
  {   QSqlQuery q;
      int i=0;
-     q.exec("select prixt from troupe");
+     q.exec("select prixt from troupes");
      while (q.next()) {
          QString refer = q.value(4).toString();
          i++;

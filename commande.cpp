@@ -25,7 +25,7 @@ commande::commande(QString n,QString i,QString r,QString q,QString d,QString p,Q
 bool commande::ajouter(){
 
     QSqlQuery query;
-    query.prepare("INSERT INTO COMMANDE (NUM_CMD,ID_FOUR,REF_PRODUIT,QUANTITE,DATE_CMD,PRIX_UNITAIRE,TVA,TOTALE)"
+    query.prepare("INSERT INTO COMMANDES (NUM_CMD,ID_FOUR,REF_PRODUIT,QUANTITE,DATE_CMD,PRIX_UNITAIRE,TVA,TOTALE)"
                   "VALUES(:num_cmd, :id_four, :ref_produit, :quantite, :date_cmd, :prix_unitaire, :TVA, :totale)");
     query.bindValue(":num_cmd",num_cmd);
     query.bindValue(":id_four",id_four);
@@ -40,7 +40,7 @@ bool commande::ajouter(){
 QSqlQueryModel * commande::afficher(){
 
     QSqlQueryModel * model=new QSqlQueryModel();
-    model->setQuery("select * from commande");
+    model->setQuery("select * from commandes");
     model->setHeaderData(0,Qt::Horizontal, QObject::tr("num_cmd"));
     model->setHeaderData(1,Qt::Horizontal, QObject::tr("id_four"));
     model->setHeaderData(2,Qt::Horizontal, QObject::tr("ref_produit"));
@@ -54,13 +54,13 @@ QSqlQueryModel * commande::afficher(){
 bool commande::supprimer(QString num_cmd){
 
     QSqlQuery query;
-    query.prepare("delete from commande where num_cmd = :num_cmd");
+    query.prepare("delete from commandes where num_cmd = :num_cmd");
     query.bindValue(":num_cmd",num_cmd);
     return query.exec();
 }
 bool commande::modifier(QString num_cmd){
     QSqlQuery query;
-    query.prepare("update commande set id_four= :id_four ,ref_produit= :ref_produit ,quantite= :quantite ,date_cmd= :date_cmd ,prix_unitaire= :prix_unitaire ,TVA= :TVA ,totale= :totale where num_cmd=:num_cmd");
+    query.prepare("update commandes set id_four= :id_four ,ref_produit= :ref_produit ,quantite= :quantite ,date_cmd= :date_cmd ,prix_unitaire= :prix_unitaire ,TVA= :TVA ,totale= :totale where num_cmd=:num_cmd");
     query.bindValue(":num_cmd",num_cmd);
     query.bindValue(":id_four",id_four);
     query.bindValue(":ref_produit",ref_produit);
@@ -77,7 +77,7 @@ QSqlQueryModel *commande::trier() //ml A-Z lieu // m sghir lel kbir
 {
     QSqlQuery * q = new  QSqlQuery ();
            QSqlQueryModel * model = new  QSqlQueryModel ();
-           q->prepare("SELECT * FROM commande order by ref_produit ASC");
+           q->prepare("SELECT * FROM commandes order by ref_produit ASC");
            q->exec();
            model->setQuery(*q);
            return model;
@@ -100,7 +100,7 @@ QSqlQueryModel *commande::trierdec() //ml Z-A
      //ml kbir l sghir
            QSqlQuery * q = new  QSqlQuery ();
                   QSqlQueryModel * model = new  QSqlQueryModel ();
-                  q->prepare("SELECT * FROM commande order by ref_produit DESC");
+                  q->prepare("SELECT * FROM commandes order by ref_produit DESC");
                   q->exec();
                   model->setQuery(*q);
                   return model;

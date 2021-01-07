@@ -12,6 +12,9 @@
 #include "commande.h"
 #include "local.h"
 #include "troupe.h"
+#include <QSound>
+#include <QTranslator>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -60,7 +63,7 @@ private slots:
     void on_recherchebuttonP_clicked();
 
     void on_depRH_clicked();
-    void make_plot();
+
 
     void on_pushButton_ajouter_clicked();
 
@@ -121,10 +124,6 @@ private slots:
 
     void on_pushButton_Ajouter_clicked();
 
-
-
-    void on_pushButton_modifier_2_clicked();
-
     void on_modifieFournisseur_clicked();
 
     void on_pushButton_12_clicked();
@@ -181,6 +180,30 @@ private slots:
 
     void on_imprimertroupe_clicked();
 
+    void on_Back_clicked();
+
+    void on_sendmail_clicked();
+
+    void on_browse_clicked();
+
+    void on_excellocal_clicked();
+
+    void on_exceltroupe_clicked();
+
+    void on_sendmail_3_clicked();
+
+    void on_browse_3_clicked();
+
+
+
+    void on_tabWidgetlocal_currentChanged(int index);
+
+    void on_confirmerlangue_clicked();
+
+    void on_statistiqueRH_currentChanged(int index);
+
+    void on_tabWidget_6_currentChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     pack tmppack;
@@ -193,5 +216,10 @@ private:
     commande tempcommande;
     local tempLocal;
     troupe temptroupe;
+    QStringList files;
+    QStringList files1;
+    QSound *son;
+    QTranslator T;
+
 };
 #endif // MAINWINDOW_H
