@@ -5,6 +5,9 @@
 #include<QSqlQuery>
 #include<QSqlQueryModel>
 #include<QTableView>
+#include "QFileDialog"
+#include "QTextBrowser"
+#include "QPrinter"
 
 class Vehicules
 {
@@ -18,9 +21,10 @@ public:
    bool modifier(int d);
     bool supprimer(int);
     bool supprimerTout();
-  void rechercher(QString a,QTableView *g);
- QSqlQueryModel * afficherTriMarque();
+  QSqlQueryModel * rechercher(QString a);
+ QSqlQueryModel * afficherTriMarque(QString ch);
     QSqlQueryModel * afficher();
+    void exporterpdf_empl(QTextBrowser *text);
 
 private:
     QString Marque_v,Type_v;

@@ -14,11 +14,10 @@
 #include<QSqlQueryModel>
 #include<QtPrintSupport/QPrinter>
 #include<QPrinter>
+#include<QDebug>
+#include <QComboBox>
+#include "QSystemTrayIcon"
 #include "m_electronique.h"
-#include "qcustomplot.h"
-
-
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -27,8 +26,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 ui->tableView->setModel(V.afficher());
 ui->tableView_e->setModel(e.afficher());
-
-
+ui->Textpdf->hide();
+ui->textveh->hide();
+info= new QSystemTrayIcon(this);
+//info->setIcon(QIcon("C:/Users/derba/OneDrive/Bureau/oo.png"));
 }
 
 
@@ -47,7 +48,9 @@ void MainWindow::on_ajouter_clicked()
    QString type=ui->type->text();;
 Vehicules V(id,marque,type);
 bool test=V.ajouter();
+
 if(test){
+    info->showMessage("Ajouter","Vehicule Ajouter",QSystemTrayIcon::Information,1000);
     //refresh
     ui->tableView->setModel(V.afficher());
 
@@ -115,41 +118,18 @@ void MainWindow::on_pushButton_clicked()
                              "Click Cancel to exit."), QMessageBox::Cancel);
 
 }
-
 }
-void MainWindow::on_recherche_clicked()
-{Vehicules v;
-
-        v.rechercher(ui->rec->text(),ui->tableView);;
-
-ui->rec->setText("");
-            }
 
 
 
-void MainWindow::on_pushButton_2_clicked()
-{
-   ui->tableView->setModel(V.afficherTriMarque());
-}
 
 
 
 void MainWindow::on_PDf_clicked()
-{    QString filename="fichier.pdf";
-     //Settings
-     QPrinter printer;
-     printer.setOrientation(QPrinter::Landscape);
+{      V.exporterpdf_empl(ui->textveh);
 
+       info->showMessage("Export PDF","Equipements list is now availble in pdf format",QSystemTrayIcon::Information,1000);
 
-      printer.setOutputFileName("C:/Users/Chihab/Desktop/PDF/fichier.pdf");
-     printer.setPaperSize(QPrinter::A4);
-     printer.setOutputFormat(QPrinter::PdfFormat);
-
-     QPainter painter(&printer);
-     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
-     ui->tableView->render(&painter );
-
-     painter.end();
      QMessageBox::information(this,tr("Exported!"),tr("Equipements list is now availble in pdf format "));
 
 }
@@ -301,21 +281,11 @@ else
 
 void MainWindow::on_pushButton_8_clicked()
 {
-    QString filename="fichier.pdf";
-         //Settings
-         QPrinter printer;
-         printer.setOrientation(QPrinter::Landscape);
 
 
-          printer.setOutputFileName("C:/Users/Chihab/Desktop/PDF/electronique/fichier.pdf");
-         printer.setPaperSize(QPrinter::A4);
-         printer.setOutputFormat(QPrinter::PdfFormat);
+            e.exporterpdf_empl(ui->Textpdf);
 
-         QPainter painter(&printer);
-         painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
-         ui->tableView_e->render(&painter );
-
-         painter.end();
+         info->showMessage("Export PDF","Equipements list is now availble in pdf format",QSystemTrayIcon::Information,1000);
          QMessageBox::information(this,tr("Exported!"),tr("Equipements list is now availble in pdf format "));
 }
 
@@ -326,76 +296,127 @@ void MainWindow::on_pushButton_10_clicked()
 
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
-    // set dark background gradient:
-              QLinearGradient gradient(0, 0, 0, 400);
-              gradient.setColorAt(0, QColor(90, 90, 90));
-              gradient.setColorAt(0.38, QColor(105, 105, 105));
-              gradient.setColorAt(1, QColor(70, 70, 70));
-              ui->plot->setBackground(QBrush(gradient));
+    {
+        // set dark background gradient:
+                  QLinearGradient gradient(0, 0, 0, 400);
+                  gradient.setColorAt(0, QColor(90, 90, 90));
+                  gradient.setColorAt(0.38, QColor(105, 105, 105));
+                  gradient.setColorAt(1, QColor(70, 70, 70));
+                  ui->plot->setBackground(QBrush(gradient));
 
 
-              // create empty bar chart objects:
-              QCPBars *amande = new QCPBars(ui->plot->xAxis, ui->plot->yAxis);
-              amande->setAntialiased(false);
-              amande->setStackingGap(1);
-               //set names and colors:
-              amande->setName("Repartition des matérieux electro selon leurs ID ");
-              amande->setPen(QPen(QColor(0, 168, 140).lighter(130)));
-              amande->setBrush(QColor(0, 168, 140));
-              // stack bars on top of each other:
+                  // create empty bar chart objects:
+                  QCPBars *amande = new QCPBars(ui->plot->xAxis, ui->plot->yAxis);
+                  amande->setAntialiased(false);
+                  amande->setStackingGap(1);
+                   //set names and colors:
+                  amande->setName("Repartition des matérieux electro selon leurs ID ");
+                  amande->setPen(QPen(QColor(0, 168, 140).lighter(130)));
+                  amande->setBrush(QColor(0, 168, 140));
+                  // stack bars on top of each other:
 
 
-              // prepare x axis with country labels:
-              QVector<double> ticks;
-              QVector<QString> labels;
-              e.statistique(&ticks,&labels);
+                  // prepare x axis with country labels:
+                  QVector<double> ticks;
+                  QVector<QString> labels;
+                  e.statistique(&ticks,&labels);
 
 
 
-              QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
-              textTicker->addTicks(ticks, labels);
-              ui->plot->xAxis->setTicker(textTicker);
-              ui->plot->xAxis->setTickLabelRotation(60);
-              ui->plot->xAxis->setSubTicks(false);
-              ui->plot->xAxis->setTickLength(0, 4);
-              ui->plot->xAxis->setRange(0, 8);
-              ui->plot->xAxis->setBasePen(QPen(Qt::white));
-              ui->plot->xAxis->setTickPen(QPen(Qt::white));
-              ui->plot->xAxis->grid()->setVisible(true);
-              ui->plot->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
-              ui->plot->xAxis->setTickLabelColor(Qt::white);
-              ui->plot->xAxis->setLabelColor(Qt::white);
+                  QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
+                  textTicker->addTicks(ticks, labels);
+                  ui->plot->xAxis->setTicker(textTicker);
+                  ui->plot->xAxis->setTickLabelRotation(60);
+                  ui->plot->xAxis->setSubTicks(false);
+                  ui->plot->xAxis->setTickLength(0, 4);
+                  ui->plot->xAxis->setRange(0, 8);
+                  ui->plot->xAxis->setBasePen(QPen(Qt::white));
+                  ui->plot->xAxis->setTickPen(QPen(Qt::white));
+                  ui->plot->xAxis->grid()->setVisible(true);
+                  ui->plot->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+                  ui->plot->xAxis->setTickLabelColor(Qt::white);
+                  ui->plot->xAxis->setLabelColor(Qt::white);
 
-              // prepare y axis:
-              ui->plot->yAxis->setRange(0,10);
-              ui->plot->yAxis->setPadding(5); // a bit more space to the left border
-              ui->plot->yAxis->setLabel("Statistiques");
-              ui->plot->yAxis->setBasePen(QPen(Qt::white));
-              ui->plot->yAxis->setTickPen(QPen(Qt::white));
-              ui->plot->yAxis->setSubTickPen(QPen(Qt::white));
-              ui->plot->yAxis->grid()->setSubGridVisible(true);
-              ui->plot->yAxis->setTickLabelColor(Qt::white);
-              ui->plot->yAxis->setLabelColor(Qt::white);
-              ui->plot->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
-              ui->plot->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+                  // prepare y axis:
+                  ui->plot->yAxis->setRange(0,10);
+                  ui->plot->yAxis->setPadding(5); // a bit more space to the left border
+                  ui->plot->yAxis->setLabel("Statistiques");
+                  ui->plot->yAxis->setBasePen(QPen(Qt::white));
+                  ui->plot->yAxis->setTickPen(QPen(Qt::white));
+                  ui->plot->yAxis->setSubTickPen(QPen(Qt::white));
+                  ui->plot->yAxis->grid()->setSubGridVisible(true);
+                  ui->plot->yAxis->setTickLabelColor(Qt::white);
+                  ui->plot->yAxis->setLabelColor(Qt::white);
+                  ui->plot->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
+                  ui->plot->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
 
-              // Add data:
+                  // Add data:
 
-              QVector<double> PlaceData;
-              QSqlQuery q1("select prix from m_electronique");
-              while (q1.next()) {
-                            int  nbr_fautee = q1.value(0).toInt();
-                            PlaceData<< nbr_fautee;
-                              }
-              amande->setData(ticks, PlaceData);
-              // setup legend:
-              ui->plot->legend->setVisible(true);
-              ui->plot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignHCenter);
-              ui->plot->legend->setBrush(QColor(255, 255, 255, 100));
-              ui->plot->legend->setBorderPen(Qt::NoPen);
-              QFont legendFont = font();
-              legendFont.setPointSize(10);
-              ui->plot->legend->setFont(legendFont);
-              ui->plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+                  QVector<double> PlaceData;
+                  QSqlQuery q1("select prix from m_electronique");
+                  while (q1.next()) {
+                                int  nbr_fautee = q1.value(0).toInt();
+                                PlaceData<< nbr_fautee;
+                                  }
+                  amande->setData(ticks, PlaceData);
+                  // setup legend:
+                  ui->plot->legend->setVisible(true);
+                  ui->plot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignHCenter);
+                  ui->plot->legend->setBrush(QColor(255, 255, 255, 100));
+                  ui->plot->legend->setBorderPen(Qt::NoPen);
+                  QFont legendFont = font();
+                  legendFont.setPointSize(10);
+                  ui->plot->legend->setFont(legendFont);
+                  ui->plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
+    }
+}
+
+void MainWindow::on_pushButton_11_clicked()
+{
+     ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::on_pushButton_12_clicked()
+{
+     ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_pushButton_13_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+
+}
+
+void MainWindow::on_pushButton_14_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+
+}
+
+void MainWindow::on_pushButton_15_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+
+}
+
+void MainWindow::on_pushButton_16_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+
+}
+
+void MainWindow::on_rec_textChanged(const QString &arg1)
+{
+
+ ui->tableView->setModel(V.rechercher(arg1));
+
+//qDebug()<<"ok";
+
+}
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+        ui->tableView->setModel(V.afficherTriMarque(ui->comboBox->currentText()));
 }

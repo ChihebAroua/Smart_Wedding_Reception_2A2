@@ -1,6 +1,6 @@
 #include "vehicules.h"
 #include<QString>
-//s//
+
 #include<QTableView>
 Vehicules::Vehicules()
 {}
@@ -51,9 +51,24 @@ QSqlQueryModel * Vehicules::afficher()
     return model;
 
 }
-QSqlQueryModel * Vehicules::afficherTriMarque()
+QSqlQueryModel * Vehicules::afficherTriMarque(QString ch)
 { QSqlQueryModel * model=new QSqlQueryModel();
-    model->setQuery("select * from Vehicules ORDER BY marque_v ASC");// asc assendant dsc descendant
+    if(ch=="id")
+           {
+               model->setQuery("select * from Vehicules  order by id_v" );
+           }
+           else if(ch=="type")
+           {
+               model->setQuery("select * from Vehicules  order by type_v" );
+           }
+           else if(ch=="marque")
+               {
+
+               model->setQuery("select * from Vehicules  order by marque_v" );
+                      }
+
+
+
     model->setHeaderData(0,Qt::Horizontal,QObject::tr("id"));
     model->setHeaderData(1,Qt::Horizontal,QObject::tr("type"));
      model->setHeaderData(2,Qt::Horizontal,QObject::tr("marque"));
@@ -61,16 +76,20 @@ QSqlQueryModel * Vehicules::afficherTriMarque()
     return model;
 
 }
-void Vehicules::rechercher(QString a,QTableView *g)
-{ {QSqlQuery qry;
-         QSqlQueryModel *m=new QSqlQueryModel();//initialisation
-         qry.prepare("select * from vehicules where id_v like'%"+a+"%' OR type_v like '%"+a+"%' OR marque_v like '%"+a+"%'");
-                     qry.exec();
-                 m->setQuery(qry);
-         g->setModel(m);
+QSqlQueryModel * Vehicules::rechercher(QString a)
+{
+
+    QSqlQueryModel * model=new QSqlQueryModel();
+        model->setQuery("select * from vehicules where id_v like'%"+a+"%' OR type_v like '%"+a+"%' OR marque_v like '%"+a+"%'");
+        model->setHeaderData(0,Qt::Horizontal,QObject::tr("id"));
+        model->setHeaderData(1,Qt::Horizontal,QObject::tr("type"));
+         model->setHeaderData(2,Qt::Horizontal,QObject::tr("marque"));
+
+        return model;
 
 
-     }}
+
+     }
 bool Vehicules::modifier(int d)
 {QSqlQuery query ;
     query.prepare("update vehicules set id_v=?,type_v=?,marque_v=? where id_v=?");
@@ -83,6 +102,23 @@ bool Vehicules::modifier(int d)
     return false;
 }
 
+void Vehicules::exporterpdf_empl(QTextBrowser *text)
+{
+   QString tt;
+    QSqlQuery qry;
+    qry.exec("select* from vehicules");
+    while(qry.next())
+    {
+        tt="id: "+qry.value(0).toString()+"\n"+"type: "+qry.value(1).toString()+"\n"+"marque: "+qry.value(2).toString();
 
-
+    }
+    text->setText(tt);
+    QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
+    if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+    QPrinter printer(QPrinter::PrinterResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFileName(fileName);
+    text->print(&printer);
+}
 

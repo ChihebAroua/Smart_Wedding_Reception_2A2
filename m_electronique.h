@@ -5,6 +5,9 @@
 #include<QSqlQuery>
 #include<QSqlQueryModel>
 #include<QTableView>
+#include "QFileDialog"
+#include "QTextBrowser"
+#include "QPrinter"
 
 class m_electronique
 {
@@ -23,7 +26,7 @@ public:
     bool supprimerTout();
   void rechercher(QString a,QTableView *g);
   void statistique(QVector<double>* ticks,QVector<QString> *labels);
-
+void exporterpdf_empl(QTextBrowser *text);
  QSqlQueryModel * afficherTriType();
     QSqlQueryModel * afficher();
 private:

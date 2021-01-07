@@ -99,5 +99,25 @@ void m_electronique::statistique(QVector<double>* ticks,QVector<QString> *labels
         *labels <<refer;
 }
 }
+void m_electronique::exporterpdf_empl(QTextBrowser *text)
+{
+   QString tt;
+    QSqlQuery qry;
+    qry.exec("select* from m_electronique");
+    while(qry.next())
+    {
+        tt="refs: "+qry.value(0).toString()+"\n"+"type_e: "+qry.value(1).toString()+"\n"+"prix: "+qry.value(2).toString()+"\n"+"voltage: "+qry.value(3).toString();
+
+    }
+    text->setText(tt);
+    QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
+    if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+    QPrinter printer(QPrinter::PrinterResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFileName(fileName);
+    text->print(&printer);
+}
+
 
 
