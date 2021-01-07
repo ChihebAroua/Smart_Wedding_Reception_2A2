@@ -67,7 +67,7 @@ QString test;
         while (m.next()){ c++;}
             if (c==1)
             {n.notificationC(test,1);
-
+           qDebug()<<"yes";
             a.write_to_arduino("1");}
              else if (c==0)
             { n.notificationC(test,0);
