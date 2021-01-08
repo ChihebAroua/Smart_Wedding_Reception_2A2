@@ -14,7 +14,10 @@
 #include "troupe.h"
 #include <QSound>
 #include <QTranslator>
-
+#include "notification.h"
+#include "arduino.h"
+#include "port.h"
+#include "arduinofy.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -28,8 +31,10 @@ public:
     ~MainWindow();
     int  getselectedVehicule();
     int getselectedM_elec();
-private slots:
 
+private slots:
+void update_arduino();
+void port_arduino();
     void on_login_clicked();
 
 
@@ -92,8 +97,6 @@ private slots:
     void on_pushButton_4_clicked();
 
     void on_pushButton_5_clicked();
-
-    void on_pushButton_6_clicked();
 
     void on_pushButton_7_clicked();
 
@@ -195,7 +198,7 @@ private slots:
     void on_browse_3_clicked();
 
 
-
+void gaz();
     void on_tabWidgetlocal_currentChanged(int index);
 
     void on_confirmerlangue_clicked();
@@ -203,6 +206,10 @@ private slots:
     void on_statistiqueRH_currentChanged(int index);
 
     void on_tabWidget_6_currentChanged(int index);
+
+    void on_Port_clicked();
+
+    void on_pushButton_6_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -220,6 +227,10 @@ private:
     QStringList files1;
     QSound *son;
     QTranslator T;
+    QString data;
+    arduino a;
+    ArduinoFY FY;
+    port *P;
 
 };
 #endif // MAINWINDOW_H

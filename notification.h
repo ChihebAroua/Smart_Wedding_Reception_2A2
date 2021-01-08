@@ -21,6 +21,7 @@ class notification :public QWidget
 public:
    // notification();
     void notificationC(QString data,int a);
+    void notificationCh();
      explicit notification(QWidget *parent = 0);
 protected:
     void paintEvent(QPaintEvent *event);

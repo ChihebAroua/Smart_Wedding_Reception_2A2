@@ -51,14 +51,31 @@ QSqlQueryModel * Vehicules::afficher()
     return model;
 
 }
-QSqlQueryModel * Vehicules::afficherTriMarque()
-{ QSqlQueryModel * model=new QSqlQueryModel();
-    model->setQuery("select * from Vehicules ORDER BY marque_v ASC");// asc assendant dsc descendant
-    model->setHeaderData(0,Qt::Horizontal,QObject::tr("id"));
-    model->setHeaderData(1,Qt::Horizontal,QObject::tr("type"));
-     model->setHeaderData(2,Qt::Horizontal,QObject::tr("marque"));
+QSqlQueryModel * Vehicules::afficherTriMarque(QString ch)
+{
+     QSqlQueryModel * model=new QSqlQueryModel();
+        if(ch=="id")
+               {
+                   model->setQuery("select * from Vehicules  order by id_v" );
+               }
+               else if(ch=="type")
+               {
+                   model->setQuery("select * from Vehicules  order by type_v" );
+               }
+               else if(ch=="marque")
+                   {
 
-    return model;
+                   model->setQuery("select * from Vehicules  order by marque_v" );
+                          }
+
+
+
+        model->setHeaderData(0,Qt::Horizontal,QObject::tr("id"));
+        model->setHeaderData(1,Qt::Horizontal,QObject::tr("type"));
+         model->setHeaderData(2,Qt::Horizontal,QObject::tr("marque"));
+
+        return model;
+
 
 }
 void Vehicules::rechercher(QString a,QTableView *g)

@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     {
         QMessageBox::critical(nullptr,QObject::tr("Database is not open"),QObject::tr("Connection failed.\n"
                                                                           "\nClick Cancel to exist."),QMessageBox::Cancel);
-    w.show();
+
     }
     return a.exec();
 }

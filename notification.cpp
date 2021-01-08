@@ -124,3 +124,20 @@ float notification::getPopupOpacity() const
 {
     return popupOpacity;
 }
+void notification::notificationCh()
+{
+
+    QSystemTrayIcon *notifyIcon = new QSystemTrayIcon;
+
+    notifyIcon->setIcon(QIcon("C:/Users/USER/Desktop/notif"));
+
+    notifyIcon->show();
+
+   QString t1,t2;
+        t1="GAZ";
+        t1=t1;
+        t2=" dans la salle";
+        t2=t1+t2;
+        notifyIcon->showMessage("Notification ",t2,QSystemTrayIcon::Information,15000);}
+
+

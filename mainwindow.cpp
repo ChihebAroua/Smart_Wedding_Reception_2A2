@@ -1,8 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "ui_port.h"
 #include "connect.h"
 #include"employes.h"
 #include"taches.h"
+#include"port.h"
 #include"vehicules.h"
 #include"m_electronique.h"
 #include "qcustomplot.h"
@@ -31,7 +33,7 @@
 #include <QSystemTrayIcon>
 #include <QtDebug>
 #include <QObject>
-
+#include <arduinofy.h>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -110,6 +112,17 @@ MainWindow::MainWindow(QWidget *parent)
                         ui->lineEdit_type->setValidator(new QRegExpValidator(QRegExp("[a-z-A-Z]+"),this));
                         ui->lineEdit_duree->setValidator(new QRegExpValidator(QRegExp("[0-9]*"),this));
                //MainWindow::make_plot();
+                        //arduino moenes et helmi
+                        int ret=a.connect_arduino();
+                        switch (ret) {
+                        case(0):qDebug()<<"arduino is available and connected to: "<<a.getarduino_port_name();
+                            break;
+                        case(1):qDebug()<<"arduino is available but not connected to: "<<a.getarduino_port_name();
+                            break;
+                        case(-1):qDebug()<<"arduino is not available";
+                        }
+                        QObject::connect(a.getserial(),SIGNAL(readyRead()),this,SLOT(update_arduino()));
+
 }
 
 MainWindow::~MainWindow()
@@ -117,6 +130,44 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::update_arduino()
+        {
+    notification n ;
+
+        int c=0;
+    QString test;
+        test=a.read_from_arduino();
+
+     // qDebug()<<test;
+
+        if(test!="wait")
+    {
+
+       QSqlQuery m ;
+        if(m.exec("select * from EMPLOYES where id='"+test+"'"))
+        {
+            while (m.next()){ c++;}
+                if (c==1)
+                {n.notificationC(test,1);
+               qDebug()<<"yes";
+                a.write_to_arduino("1");}
+                 else if (c==0)
+                { n.notificationC(test,0);
+
+                a.write_to_arduino("0");};
+
+
+        }}
+        }
+void MainWindow::gaz()
+{
+     QString test=a.read_from_arduino();
+     if(test=="1")
+     {
+         notification n;
+         n.notificationCh();
+     }
+}
 void MainWindow::on_login_clicked()
 {
     QString user_name= ui ->username->text() ;
@@ -1186,17 +1237,31 @@ void MainWindow::on_recherche_clicked()
 }
 
 void MainWindow::on_pushButton_2_clicked()
-{
-    ui->tableView_3->setModel(V.afficherTriMarque());
+{QString ch=ui->comboBox1->currentText();
+   ui->tableView_3->setModel(V.afficherTriMarque(ch));
 }
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    Vehicules c(ui->id_m->text().toInt(),ui->marque_m->text(),ui->type_m->text());
-       c.modifier(getselectedVehicule());
-        ui->tableView_3->setModel(V.afficher());
-        ui->marque_m->setText("");
-        ui->type_m->setText("");
+    int id=ui->id_m->text().toInt();
+    QString marque=ui->marque_m->text();
+    QString type=ui->type_m->text();
+    Vehicules  p(id,marque,type);
+    bool test= p.modifier(id);
+    if(test==true)
+    {
+        ui->tableView->setModel(V.afficher());
+
+        QMessageBox::information(nullptr,QObject::tr("Modifier une pack"),
+                                 QObject::tr("Pack modifiée. \n"
+                                             "Click Cancel to exist."),QMessageBox::Cancel);
+    }else
+    {
+        QMessageBox::information(nullptr,QObject::tr("Erreur"),
+                                 QObject::tr("Erreur. \n"
+                                             "Click Cancel to exist."),QMessageBox::Cancel);
+    }
+
 }
 
 void MainWindow::on_depSA_clicked()
@@ -2165,5 +2230,31 @@ void MainWindow::on_tabWidget_6_currentChanged(int index) // statistique chiheb
                  legendFont.setPointSize(10);
                  ui->plot_4->legend->setFont(legendFont);
                  ui->plot_4->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+
+}
+
+void MainWindow::on_Port_clicked()
+{
+P = new port(this);
+P->show();
+
+}
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    m_electronique i(ui->ref_e_4->text().toInt(),ui->type_e_7->text(),ui->prix_e_4->text().toInt(),ui->vol_4->text().toInt());
+            bool k=i.modifier(getselectedM_elec());
+            i.modifier(getselectedM_elec());
+
+            if(k){
+                ui->tableView_e->setModel(e.afficher());
+                      ui->marque_m->setText("");
+                      ui->type_m->setText("");
+                }
+        else
+
+                      QMessageBox::information(nullptr, QObject::tr("***************s"),
+                                  QObject::tr("***************s"), QMessageBox::Cancel);
+
 
 }

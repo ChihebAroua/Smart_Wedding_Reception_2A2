@@ -19,7 +19,7 @@ public:
     bool supprimer(int);
     bool supprimerTout();
   void rechercher(QString a,QTableView *g);
- QSqlQueryModel * afficherTriMarque();
+ QSqlQueryModel * afficherTriMarque(QString);
     QSqlQueryModel * afficher();
 
 private:
